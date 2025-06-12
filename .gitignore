@@ -1,2 +1,101 @@
 # Ignore Windsurf directory
 .windsurf/
+
+# Frontend
+## Dependencies
+/frontend/node_modules
+/frontend/.pnp
+/frontend/.pnp.*
+/frontend/.yarn/*
+!/frontend/.yarn/patches
+!/frontend/.yarn/plugins
+!/frontend/.yarn/releases
+!/frontend/.yarn/versions
+
+## Testing
+/frontend/coverage
+
+## Next.js
+/frontend/.next/
+/frontend/out/
+
+## Production
+/frontend/build
+
+## Misc
+/frontend/.DS_Store
+/frontend/*.pem
+
+## Debug logs
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/.pnpm-debug.log*
+
+## Environment files
+/frontend/.env*
+
+## Vercel
+/frontend/.vercel
+
+## TypeScript
+/frontend/*.tsbuild.info
+/frontend/next-env.d.ts
+
+# Backend (Rails)
+## Ruby/Rails specific
+/backend/tmp/
+/backend/log/*.log
+/backend/temp/
+/backend/db/*.sqlite3
+/backend/db/*.sqlite3-*
+/backend/*.sqlite3
+/backend/*.sqlite3-*
+/backend/*.sqlite3-journal
+/backend/storage/*
+!/backend/storage/.keep
+
+## Environment files
+/backend/.env
+/backend/.env.*.local
+/backend/.env.*.local
+
+## Development
+/backend/.bundle
+/backend/vendor/bundle
+/backend/node_modules
+/backend/public/assets
+/backend/public/packs
+/backend/public/packs-test
+/backend/public/system
+/backend/tmp/cache
+/backend/tmp/pids
+/backend/tmp/sockets
+/backend/tmp/storage
+/backend/tmp/cache/bootsnap-*
+/backend/tmp/restart.txt
+/backend/tmp/pids/server.pid
+
+## Test
+/backend/coverage/
+/backend/spec/tmp
+/backend/spec/examples.txt
+
+## Production
+/backend/public/system
+/backend/public/uploads
+
+## IDE specific files
+.idea/
+.vscode/
+*.swp
+*~
+
+## OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

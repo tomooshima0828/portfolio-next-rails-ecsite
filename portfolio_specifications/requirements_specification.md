@@ -16,8 +16,8 @@ This EC site includes basic features for users to browse and purchase products, 
 - **主要技術スタック:**
     - Backend: Ruby on Rails
     - バックエンド: Ruby on Rails
-    - Frontend: Next.js
-    - フロントエンド: Next.js
+    - Frontend: Next.js, TypeScript, Tailwind CSS, Redux
+    - フロントエンド: Next.js, TypeScript, Tailwind CSS, Redux
     - Database: PostgreSQL
     - データベース: PostgreSQL
     - Storage: Cloudinary

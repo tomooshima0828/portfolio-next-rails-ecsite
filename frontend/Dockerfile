@@ -1,20 +1,14 @@
+# 開発環境用
 FROM node:18-alpine
 
-# 作業ディレクトリの設定
 WORKDIR /app
 
-# パッケージ関連ファイルをコピー
-COPY package*.json ./
-COPY yarn.lock ./
+## 依存関係をインストール
+COPY package.json package-lock.json ./
+RUN npm ci
 
-# 依存関係のインストール
-RUN yarn install
-
-# アプリケーションのコピー
+# アプリケーションコードをコピー
 COPY . .
 
-# ビルドと起動コマンド
-CMD ["yarn", "dev"]
-
-# ポートの公開
-EXPOSE 3000
+# 開発サーバーを起動
+CMD ["npm", "run", "dev"]
