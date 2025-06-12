@@ -92,40 +92,40 @@ MVP(顧客に価値を提供できる最小限のプロダクト)に必須の機
 
 ## 5. Risks and Issues / リスクと課題
 
-1. **Technical Risks**
+### 1. **Technical Risks**
    - Payment system (PayJP) integration may take longer than expected
    - Performance optimization for image upload functionality
 
-2. **Schedule Risks**
+### 2. **Schedule Risks**
    - Testing period may be insufficient
    - Limited buffer for reviews and fixes
 
-3. **Dependency Risks**
+### 3. **Dependency Risks**
    - Impact of changes in external APIs (payment, shipping, etc.)
    - Third-party library compatibility issues
 
-1. **技術的リスク**
+### 1. **技術的リスク**
    - 決済システム（PayJP）の統合に想定以上の時間がかかる可能性
    - 画像アップロード機能のパフォーマンス最適化
 
-2. **スケジュールリスク**
+### 2. **スケジュールリスク**
    - テスト期間が不足する可能性
    - レビューと修正のためのバッファが限られている
 
-3. **依存関係リスク**
+### 3. **依存関係リスク**
    - 外部API（決済、配送など）の変更に伴う影響
    - サードパーティライブラリの互換性問題
 
 ## 6. Next Steps / 次のステップ
 
-1. Detailed technical design
-2. Finalize database schema
-3. Create API specifications
-4. Set up development environment
-5. Start implementation (sequentially from Phase 1)
+### 1. Detailed technical design / 技術スタックの詳細設計
+### 2. Finalize database schema / データベーススキーマの最終決定
+### 3. Create API specifications / API仕様書の作成
+### 4. Set up development environment / 開発環境のセットアップ
+### 5. Start implementation (sequentially from Phase 1) / 実装開始（Phase 1から順次）
 
-1. 技術スタックの詳細設計
-2. データベーススキーマの最終決定
-3. API仕様書の作成
-4. 開発環境のセットアップ
-5. 実装開始（Phase 1から順次）
+### 1. 技術スタックの詳細設計
+### 2. データベーススキーマの最終決定
+### 3. API仕様書の作成
+### 4. 開発環境のセットアップ
+### 5. 実装開始（Phase 1から順次）
