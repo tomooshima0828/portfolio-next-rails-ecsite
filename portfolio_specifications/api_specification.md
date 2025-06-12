@@ -7,6 +7,14 @@
 This document defines the API specifications for the Portfolio EC Site.
 本文書は、ポートフォリオECサイトのAPI仕様を定義するものです。
 
+### Architecture / アーキテクチャ
+- The backend is built with Ruby on Rails in API mode.
+- バックエンドはRuby on RailsをAPIモードで使用しています。
+- The frontend is a Next.js application that communicates with the Rails API.
+- フロントエンドはNext.jsアプリケーションで、Rails APIと通信します。
+- This separation of concerns allows for better scalability and maintainability.
+- このような関心の分離により、スケーラビリティと保守性が向上します。
+
 ### 1.1. Base URL / ベースURL
 All API endpoints are prefixed with `/api/v1`.
 全てのAPIエンドポイントは `/api/v1` をプレフィックスとします。
