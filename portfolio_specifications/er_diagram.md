@@ -6,8 +6,12 @@ erDiagram
         bigint id PK
         string name
         string email
-        string password_digest
+        string encrypted_password
         string address
+        string phone
+        string reset_password_token
+        datetime reset_password_sent_at
+        datetime remember_created_at
         datetime created_at
         datetime updated_at
     }

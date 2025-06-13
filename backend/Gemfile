@@ -69,7 +69,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 3.2'
   gem 'flamegraph'
   gem 'memory_profiler'
-  # gem 'stackprof'
+  gem 'stackprof'
   
   # API documentation
   gem 'rswag-specs'
