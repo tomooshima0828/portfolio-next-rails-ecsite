@@ -1,0 +1,58 @@
+# Ruby/Rails固有
+/config/master.key
+/config/credentials/*.key
+
+# 依存関係
+/vendor/bundle
+/node_modules
+
+# ログ
+/log/*
+!/log/.keep
+/tmp
+
+# データベース
+/db/*.sqlite3
+/db/*.sqlite3-*
+/db/schema.rb
+
+# アセット
+/public/assets
+/public/packs
+/public/packs-test
+/public/system
+
+# 一時ファイル
+/tmp/cache
+/tmp/pids
+/tmp/sockets
+/tmp/storage
+/tmp/cache/bootsnap-*
+/tmp/restart.txt
+/tmp/pids/server.pid
+
+# テスト関連
+/coverage/
+/spec/tmp
+/spec/examples.txt
+
+# デバッグ
+.byebug_history
+
+# 環境変数
+# .env
+# .env.*
+# !.env.example
+
+# その他
+.DS_Store
+*.pem
+
+# エディタ設定
+.vscode/*
+!.vscode/extensions.json
+
+# RubyMine
+.idea/
+*.iml
+.idea_modules/

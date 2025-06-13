@@ -1,2 +1,39 @@
-# Ignore Windsurf directory
+# OS生成ファイル
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# エディタ設定
+.idea/
+.vscode/
+*.swp
+*~
+
+# ログ
+*.log
+
+# 環境変数（例外的にルートでも管理）
+# .env
+# .env.*
+# !.env.example
+
+# サブディレクトリの設定を読み込む
+/frontend/.next
+/backend/tmp
+/backend/log/*.log
+/backend/node_modules
+/backend/public/assets
+/backend/public/packs
+/backend/public/packs-test
+/backend/public/system
+
+# 各ディレクトリの.gitignoreを読み込む
+/frontend/node_modules
+/backend/vendor/bundle
+
+# Windsurf
 .windsurf/
