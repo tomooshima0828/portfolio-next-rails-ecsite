@@ -27,6 +27,9 @@ gem 'kaminari', '~> 1.2'
 gem 'shrine', '~> 3.0'
 gem 'image_processing', '~> 1.2'
 
+# CORS
+gem 'rack-cors'
+
 # Background jobs
 gem 'sidekiq', '~> 7.2'
 
@@ -66,7 +69,7 @@ group :development do
   gem 'rack-mini-profiler', '~> 3.2'
   gem 'flamegraph'
   gem 'memory_profiler'
-  gem 'stackprof'
+  # gem 'stackprof'
   
   # API documentation
   gem 'rswag-specs'

@@ -68,4 +68,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Docker環境で許可するホスト名を追加
+  config.hosts << "backend"
+  config.hosts << "backend:3000"
 end

@@ -28,5 +28,16 @@ module Backend
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # CORSとセッションの設定
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore
+    config.action_controller.forgery_protection_origin_check = false
+    
+    # 開発環境での設定
+    if Rails.env.development?
+      config.action_controller.default_url_options = { host: 'localhost', port: 3001 }
+      config.action_mailer.default_url_options = { host: 'localhost', port: 3001 }
+    end
   end
 end

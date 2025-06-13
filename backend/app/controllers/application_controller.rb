@@ -1,7 +1,13 @@
 class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
-  protect_from_forgery with: :exception, unless: -> { request.format.json? }
+  include ActionController::Cookies
+  # APIリクエストに対してはCSRF保護を無効にする
+  protect_from_forgery with: :null_session
   before_action :set_csrf_cookie
+
+  def not_found
+    render json: { error: "Not Found" }, status: :not_found
+  end
 
   private
 

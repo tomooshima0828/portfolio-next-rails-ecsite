@@ -34,7 +34,25 @@ portfolio-next-rails-ecsite/
 ## 6. ER Diagram
 ## 6. ER図
 
-## 7. Development Workflow / 開発ワークフロー
+## 7. Database Connection / データベース接続
+
+DBeaverなどのデータベースクライアントツールで接続する場合は以下の情報を使用してください。
+
+### Development / 開発環境
+- **Host**: `localhost`
+- **Port**: 5432
+- **Database**: `portfolio_development`
+- **Username**: `postgres`
+- **Password**: `password`
+
+### Test / テスト環境
+- **Database**: `portfolio_test`
+- その他は開発環境と同様
+
+### Production / 本番環境
+- 環境変数で設定
+
+## 8. Development Workflow / 開発ワークフロー
 
 ### Branch Naming Convention / ブランチ命名規則
 

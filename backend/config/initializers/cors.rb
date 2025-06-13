@@ -5,12 +5,24 @@
 
 # Read more: https://github.com/cyu/rack-cors
 
-# Rails.application.config.middleware.insert_before 0, Rack::Cors do
-#   allow do
-#     origins "example.com"
-#
-#     resource "*",
-#       headers: :any,
-#       methods: [:get, :post, :put, :patch, :delete, :options, :head]
-#   end
-# end
+Rails.application.config.middleware.insert_before 0, Rack::Cors do
+  allow do
+    # Docker環境とローカル開発環境の両方で動作するようにオリジンを設定
+    origins [
+      'http://localhost:3000',      # ローカル開発環境
+      'http://frontend:3000',        # Dockerコンテナ内のフロントエンド
+      'http://localhost:3001',       # ローカル開発環境（直接バックエンドにアクセスする場合）
+      'http://127.0.0.1:3000',      # ローカル開発環境（IPv4）
+      'http://0.0.0.0:3000',        # すべてのネットワークインターフェース
+      'http://127.0.0.1:64553'      # ブラウザプレビューURL
+    ]
+
+
+    resource '*',
+      headers: :any,
+      methods: [:get, :post, :put, :patch, :delete, :options, :head],
+      expose: ['Authorization', 'X-CSRF-Token'],
+      max_age: 600,
+      credentials: true
+  end
+end

@@ -1,11 +1,30 @@
 'use client';
 
-import { useAppSelector, useAppDispatch } from '@/store/store';
-import { increment, decrement } from '@/features/counter/counterSlice';
+import { useState, useEffect } from 'react';
+import { fetchHello } from '@/lib/apiClient';
 
 export default function Home() {
-  const count = useAppSelector((state) => state.counter.value);
-  const dispatch = useAppDispatch();
+  const [message, setMessage] = useState('Loading...');
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getMessage = async () => {
+      console.log('Fetching message from backend...');
+      try {
+        console.log('Calling fetchHello()...');
+        const data = await fetchHello();
+        console.log('Received data:', data);
+        setMessage(data.message);
+        setError(null);
+      } catch (err: unknown) {
+        console.error('Error in getMessage:', err);
+        const errorMessage = err instanceof Error ? err.message : '不明なエラーが発生しました';
+        setError(`バックエンドからデータを取得できませんでした: ${errorMessage}`);
+      }
+    };
+
+    getMessage();
+  }, []);
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
@@ -15,22 +34,12 @@ export default function Home() {
         </h1>
         
         <div className="mt-8 text-center">
-          <h2 className="text-2xl font-semibold mb-4">Redux Counter Example</h2>
-          <div className="flex items-center justify-center space-x-4">
-            <button
-              onClick={() => dispatch(decrement())}
-              className="px-4 py-2 bg-red-500 text-white rounded-md"
-            >
-              Decrement
-            </button>
-            <span className="text-2xl font-bold">{count}</span>
-            <button
-              onClick={() => dispatch(increment())}
-              className="px-4 py-2 bg-blue-500 text-white rounded-md"
-            >
-              Increment
-            </button>
-          </div>
+          <h2 className="text-2xl font-semibold mb-4">バックエンド接続テスト</h2>
+          {error ? (
+            <p className="text-red-500">{error}</p>
+          ) : (
+            <p className="text-lg">{message}</p>
+          )}
         </div>
       </div>
     </main>

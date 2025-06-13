@@ -15,8 +15,8 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     volumes:
-      - ./backend:/app
-      - backend_bundle:/usr/local/bundle
+      - ./backend:/rails # WORKDIRに合わせる
+      # - backend_bundle:/usr/local/bundle # 開発環境では各コンテナが独自のGemをインストールできるようにする
     ports:
       - "3001:3000"
     depends_on:
@@ -24,9 +24,11 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/portfolio_development
       RAILS_ENV: development
+      BUNDLE_DEPLOYMENT: "0"
+      BUNDLE_WITHOUT: "development:test"
     tty: true
     stdin_open: true
-    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    command: bash -c "bundle check || bundle install && rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
 
   frontend:
     build:
@@ -40,7 +42,8 @@ services:
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:3001
+      NEXT_PUBLIC_API_BASE_URL: /api/v1
+      NEXT_PUBLIC_API_URL: http://backend:3000
     tty: true
     stdin_open: true
     command: yarn dev

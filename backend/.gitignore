@@ -40,9 +40,9 @@
 .byebug_history
 
 # 環境変数
-.env
-.env.*
-!.env.example
+# .env
+# .env.*
+# !.env.example
 
 # その他
 .DS_Store
