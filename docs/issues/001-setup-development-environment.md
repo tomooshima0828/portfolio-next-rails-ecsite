@@ -1,4 +1,4 @@
-# Set up Development Environment / 開発環境セットアップ
+# Issue 001: Set up Development Environment / 開発環境セットアップ
 
 ## Description / 説明
 Set up the Docker-based development environment for the Portfolio EC Site project.
