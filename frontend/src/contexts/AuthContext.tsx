@@ -67,7 +67,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(false);
       return response;
     } catch (error) {
-      setError(error instanceof Error ? error.message : '認証エラーが発生しました');
+      setError(error instanceof Error ? error.message : 'An authentication error occurred');
       setIsLoading(false);
       throw error;
     }
@@ -98,7 +98,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(false);
       return response;
     } catch (error) {
-      setError(error instanceof Error ? error.message : '登録エラーが発生しました');
+      setError(error instanceof Error ? error.message : 'A registration error occurred');
       setIsLoading(false);
       throw error;
     }
@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
       removeToken();
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'ログアウトエラーが発生しました');
+      setError('An error occurred during logout.');
     } finally {
       setIsLoading(false);
     }
@@ -140,7 +140,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             removeToken();
           }
         } catch (error) {
-          console.error('認証エラー:', error);
+          console.error('Authentication error:', error);
           removeToken();
         }
       }

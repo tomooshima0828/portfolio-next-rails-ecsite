@@ -51,6 +51,6 @@ module Api
           # created_at や updated_at も必要であれば追加
         }
       end
-    end # Class RegistrationsController の end
-  end # Module V1 の end
-end # Module Api の end
+    end # Class RegistrationsController
+  end # Module V1
+end # Module Api
