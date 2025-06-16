@@ -51,10 +51,22 @@ export const apiClient = async <T>(
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
     
     if (!response.ok) {
-      const error = await response.json().catch(() => ({
-        message: `HTTP error! status: ${response.status}`
-      }));
-      throw new Error(error.message || 'エラーが発生しました');
+      let errorMessage = `HTTP error! status: ${response.status}`;
+      try {
+        const errorData = await response.json(); // まずJSONとしてパースを試みる
+        errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
+      } catch (e) {
+        // JSONでなければテキストとして取得
+        try {
+          const textError = await response.text();
+          if (textError) {
+            errorMessage = textError;
+          }
+        } catch (textFetchError) {
+          // テキスト取得も失敗した場合は何もしない (初期のerrorMessageを使用)
+        }
+      }
+      throw new Error(errorMessage);
     }
 
     // 204 No Content の場合は空のオブジェクトを返す
@@ -125,7 +137,7 @@ export const logoutUser = async (): Promise<AuthResponse> => {
 
 // 現在のユーザー情報を取得
 export const getCurrentUser = async (): Promise<AuthResponse> => {
-  return apiClient<AuthResponse>('/me');
+  return apiClient<AuthResponse>('/auth/current_user');
 };
 
 // 使用例

@@ -37,15 +37,19 @@ const SignupPage = () => {
         address,
         phone,
       });
+
       if (response.status.code === 200) {
-        router.push('/'); // 登録成功後、ホームページにリダイレクト
+        // 登録成功。
+        // `isAuthenticated`がtrueになるとuseEffectフックがリダイレクトを処理します。
+        console.log('Registration successful. Waiting for redirection...');
       } else {
-        // エラーメッセージはAuthContext内でsetErrorされるので、ここでは特に処理しない
-        // 必要であれば、ここで個別のエラーハンドリングを追加
+        // エラーはAuthContextで処理され、'error' state経由で表示されます。
+        // ここでリダイレクトする必要はありません。
         console.error('Registration failed:', response.status.message);
       }
     } catch (err) {
-      // エラーはAuthContextでキャッチされ、errorステートにセットされる
+      // エラーはAuthContextで処理され、'error' state経由で表示されます。
+      // ここでリダイレクトする必要はありません。
       console.error('An error occurred during registration:', err);
     }
   };
@@ -136,8 +140,13 @@ const SignupPage = () => {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{' '}
+            <br />
             <Link href="/login" className="font-medium text-indigo-600 hover:text-indigo-500">
               Sign in here/ログイン
+            </Link>
+            <br />
+            <Link href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
+              Home/ホーム
             </Link>
           </p>
         </div>

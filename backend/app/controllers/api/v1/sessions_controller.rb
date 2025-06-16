@@ -10,6 +10,7 @@ module Api
         if user&.valid_password?(params[:user][:password])
           sign_in(user)
           token = request.env['warden-jwt_auth.token']
+          Rails.logger.info "Generated token in SessionsController: #{token.inspect}"
       
           render json: {
             status: { code: 200, message: 'ログインに成功しました' },

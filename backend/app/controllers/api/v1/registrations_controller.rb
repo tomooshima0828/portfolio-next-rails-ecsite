@@ -9,7 +9,7 @@ module Api
         user.jti = SecureRandom.uuid # JTIを生成
 
         if user.save
-          # sign_in(user) # Deviseのsign_inヘルパー。JWTなので不要な場合もある
+          sign_in(user) # Deviseのsign_inヘルパーでWardenのフックを呼び出し、トークンを生成させる
           # devise-jwtが自動的にJWTトークンを生成するので、それを取得
           # トークンは通常レスポンスヘッダーにセットされるので、明示的に取得・送信する必要がない場合もある
           # Rack::Request オブジェクトから warden-jwt_auth.token を取得するのは一般的

@@ -1,6 +1,9 @@
 # Portfolio EC Site Requirements Specification
 # ポートフォリオECサイト 要件定義書
 
+* This document is a draft and may be modified or expanded as development progresses. *
+*この要件定義書は初期の叩き台であり、開発を進める中で変更・追記される可能性があります。*
+
 ## 1. Overview
 ## 1. 概要
 This document defines the requirements for an EC site to be developed as a portfolio.
@@ -286,4 +289,4 @@ This EC site includes basic features for users to browse and purchase products, 
 - Detailed access analysis / 詳細なアクセス分析
 
 ---
-*この要件定義書は初期の叩き台であり、開発を進める中で変更・追記される可能性があります。*
+

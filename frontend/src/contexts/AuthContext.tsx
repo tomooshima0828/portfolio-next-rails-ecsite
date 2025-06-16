@@ -4,8 +4,9 @@ import { User, AuthResponse, loginUser, registerUser, logoutUser, getCurrentUser
 // 認証コンテキストの型定義
 type AuthContextType = {
   user: User | null;
-  isLoading: boolean;
   isAuthenticated: boolean;
+  isLoading: boolean;
+  error: string | null;
   login: (email: string, password: string) => Promise<AuthResponse>;
   register: (userData: {
     name: string;
@@ -15,8 +16,8 @@ type AuthContextType = {
     address: string;
     phone: string;
   }) => Promise<AuthResponse>;
-  logout: () => Promise<void>;
-  error: string | null;
+  logout: () => void;
+  checkAuth: () => Promise<boolean>;
 };
 
 // デフォルト値を持つコンテキストを作成
@@ -28,6 +29,7 @@ const AuthContext = createContext<AuthContextType>({
   register: async () => ({ status: { code: 0, message: '' } }),
   logout: async () => {},
   error: null,
+  checkAuth: async () => false,
 });
 
 // コンテキストを使用するためのカスタムフック
@@ -58,18 +60,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await loginUser({ email, password });
       
       if (response.status.code === 200 && response.data && response.token) {
-        setUser(response.data);
+        // トークンを保存
         saveToken(response.token);
+        // ユーザー情報を取得して状態を更新
+        await checkAuth();
+        return response;
       } else {
-        setError(response.status.message);
+        const errorMessage = response.status.message || 'ログインに失敗しました';
+        setError(errorMessage);
+        setIsLoading(false);
+        return response;
       }
-      
-      setIsLoading(false);
-      return response;
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'An authentication error occurred');
+      const errorMessage = error instanceof Error ? error.message : '認証中にエラーが発生しました';
+      setError(errorMessage);
       setIsLoading(false);
-      throw error;
+      throw new Error(errorMessage);
     }
   };
 
@@ -89,33 +95,45 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const response = await registerUser(userData);
       
       if (response.status.code === 200 && response.data && response.token) {
-        setUser(response.data);
+        // トークンを保存
         saveToken(response.token);
+        // ユーザー情報を取得して状態を更新
+        await checkAuth();
+        return response;
       } else {
-        setError(response.status.message);
+        const errorMessage = response.status.message || '登録に失敗しました';
+        setError(errorMessage);
+        setIsLoading(false);
+        return response;
       }
-      
-      setIsLoading(false);
-      return response;
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'A registration error occurred');
+      const errorMessage = error instanceof Error ? error.message : '登録中にエラーが発生しました';
+      setError(errorMessage);
       setIsLoading(false);
-      throw error;
+      throw new Error(errorMessage);
     }
   };
 
   // ログアウト処理
-  const logout = async (): Promise<void> => {
+  const logout = async () => {
     setIsLoading(true);
     setError(null);
     
     try {
+      // バックエンドにログアウトリクエストを送信
       await logoutUser();
-      setUser(null);
+      // トークンを削除
       removeToken();
+      // ユーザー状態をリセット
+      setUser(null);
+      setIsLoading(false);
     } catch (error) {
-      setError('An error occurred during logout.');
-    } finally {
+      // エラーが発生してもローカルの認証状態はクリアする
+      removeToken();
+      setUser(null);
+      
+      const errorMessage = error instanceof Error ? error.message : 'ログアウト中にエラーが発生しました';
+      setError(errorMessage);
       setIsLoading(false);
     }
   };
@@ -123,43 +141,56 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // 初期化時にユーザー情報を取得
   useEffect(() => {
     const initAuth = async () => {
-      setIsLoading(true);
-      
-      // ローカルストレージにトークンがあるか確認
-      const token = localStorage.getItem('auth_token');
-      
-      if (token) {
-        try {
-          // 現在のユーザー情報を取得
-          const response = await getCurrentUser();
-          
-          if (response.status.code === 200 && response.data) {
-            setUser(response.data);
-          } else {
-            // トークンが無効な場合は削除
-            removeToken();
-          }
-        } catch (error) {
-          console.error('Authentication error:', error);
-          removeToken();
-        }
-      }
-      
-      setIsLoading(false);
+      await checkAuth();
     };
-
+    
     initAuth();
   }, []);
 
-  // コンテキスト値
+  // 認証状態を確認する関数
+  const checkAuth = async (): Promise<boolean> => {
+    // SSR時はlocalStorageにアクセスしない
+    if (typeof window === 'undefined') {
+      return false;
+    }
+
+    const token = localStorage.getItem('auth_token');
+    
+    if (!token) {
+      setUser(null);
+      setIsLoading(false);
+      return false;
+    }
+    
+    try {
+      const response = await getCurrentUser();
+      
+      if (response.status.code === 200 && response.data) {
+        setUser(response.data);
+        setIsLoading(false);
+        return true;
+      } else {
+        setUser(null);
+        setIsLoading(false);
+        return false;
+      }
+    } catch (error) {
+      setUser(null);
+      setIsLoading(false);
+      return false;
+    }
+  };
+
+  // コンテキストの値を設定
   const value = {
     user,
-    isLoading,
     isAuthenticated: !!user,
+    isLoading,
+    error,
     login,
     register,
     logout,
-    error,
+    checkAuth, // 新しい関数を追加
   };
 
   return (
