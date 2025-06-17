@@ -46,7 +46,7 @@ services:
       NEXT_PUBLIC_API_URL: http://backend:3000
     tty: true
     stdin_open: true
-    command: yarn dev
+    command: npm run dev
 
 volumes:
   postgres_data:

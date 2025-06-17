@@ -4,31 +4,43 @@
 ## 1. Local Development Setup / ローカル開発環境設定
 
 ### Setup Steps / セットアップ手順
-1. Clone the repository / リポジトリをクローン
-```
-git clone git@github.com:tomooshima0828/portfolio-next-rails-ecsite.git
-```
-2. Navigate to the project directory / プロジェクトディレクトリに移動
-```
-cd portfolio-next-rails-ecsite
-```
-3. Build and run the containers / コンテナを構築して起動
-```
-docker compose build
-docker compose up
-```
-4. Access the application / アプリケーションにアクセス
-```
-http://localhost:3000
-```
+
+1.  **Clone the repository / リポジトリをクローン**
+    ```bash
+    git clone git@github.com:tomooshima0828/portfolio-next-rails-ecsite.git
+    cd portfolio-next-rails-ecsite
+    ```
+
+2.  **Build and run the containers / コンテナを構築して起動**
+    *   This will start the backend and frontend servers.
+    *   これにより、バックエンドとフロントエンドのサーバーが起動します。
+    ```bash
+    docker compose build
+    docker compose up -d
+    ```
+
+3.  **Set up the database / データベースをセットアップ**
+    *   This command creates the database, runs migrations, and populates it with initial data all at once.
+    *   データベースの作成、マイグレーションの実行、初期データの投入を一度に行います。
+    ```bash
+    docker compose exec backend bin/rails db:setup
+    ```
+
+4.  **Access the application / アプリケーションにアクセス**
+    *   Frontend / フロントエンド: [http://localhost:3000](http://localhost:3000)
+    *   Backend API (for reference) / バックエンド API (参考): [http://localhost:3001](http://localhost:3001)
 
 ### Linting / リント
-```
-# backend (Rubocop) executable on the root directory
+
+*   Please run the commands in the root directory of the project.
+*   コマンドはプロジェクトのルートディレクトリで実行してください。
+
+```bash
+# backend (Rubocop)
 docker compose run --rm backend bundle exec rubocop -A
 
-# frontend (ESLint) executable on the root directory
-docker compose run --rm frontend yarn run lint
+# frontend (ESLint)
+docker compose run --rm frontend npm run lint
 ```
 
 ## 2. Overview
