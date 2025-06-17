@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class RegistrationsController < Api::V1::BaseController
@@ -51,6 +53,6 @@ module Api
           # created_at や updated_at も必要であれば追加
         }
       end
-    end # Class RegistrationsController
-  end # Module V1
-end # Module Api
+    end
+  end
+end

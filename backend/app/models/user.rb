@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
   # JTIMatcherは、各ユーザーに一意のjti（JWT ID）を割り当て、トークンの無効化を可能にします
   include Devise::JWT::RevocationStrategies::JTIMatcher
-  
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable,
          :jwt_authenticatable, jwt_revocation_strategy: self
@@ -14,7 +16,7 @@ class User < ApplicationRecord
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :address, presence: true
   validates :phone, presence: true
-  
+
   # JWTトークンが有効かどうかを確認するメソッドで、payloadはトークンの内容を表す
   def jwt_payload
     {

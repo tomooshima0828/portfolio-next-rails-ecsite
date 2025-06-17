@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Avoid CORS issues when API is called from the frontend app.
@@ -9,7 +11,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # Docker環境とローカル開発環境の両方で動作するようにオリジンを設定
     origins [
-      'http://localhost:3000',      # ローカル開発環境
+      'http://localhost:3000', # ローカル開発環境
       'http://frontend:3000',        # Dockerコンテナ内のフロントエンド
       'http://localhost:3001',       # ローカル開発環境（直接バックエンドにアクセスする場合）
       'http://127.0.0.1:3000',      # ローカル開発環境（IPv4）
@@ -17,12 +19,11 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
       'http://127.0.0.1:64553'      # ブラウザプレビューURL
     ]
 
-
     resource '*',
-      headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head],
-      expose: ['Authorization', 'X-CSRF-Token'],
-      max_age: 600,
-      credentials: true
+             headers: :any,
+             methods: %i[get post put patch delete options head],
+             expose: %w[Authorization X-CSRF-Token],
+             max_age: 600,
+             credentials: true
   end
 end
