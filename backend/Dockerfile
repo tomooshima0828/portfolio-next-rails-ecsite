@@ -32,9 +32,10 @@ RUN apt-get update -qq && \
     zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy Gemfile and Gemfile.lock
+# Copy Gemfile
 # Install application gems
-COPY Gemfile Gemfile.lock ./
+COPY Gemfile ./
+RUN touch Gemfile.lock
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
