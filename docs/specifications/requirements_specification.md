@@ -17,24 +17,19 @@ This EC site includes basic features for users to browse and purchase products, 
 - **目的:** フルスタックウェブエンジニアとしての技術力を示すためのポートフォリオ作成
 - **Main Technology Stack:**
 - **主要技術スタック:**
-    - Backend: Ruby on Rails
-    - バックエンド: Ruby on Rails
-    - Frontend: Next.js, TypeScript, Tailwind CSS, Redux
-    - フロントエンド: Next.js, TypeScript, Tailwind CSS, Redux
-    - Database: PostgreSQL
-    - データベース: PostgreSQL
+    - Backend / バックエンド: Ruby on Rails
+    - Frontend / フロントエンド: Next.js, TypeScript, Tailwind CSS, Redux
+    - Database / データベース: PostgreSQL
     - Storage: Cloudinary
     - ストレージ: Cloudinary
-    - Deployment:
-    - デプロイメント:
-        - Backend: Render
-        - バックエンド: Render
-        - Frontend: Vercel
-        - フロントエンド: Vercel
-        - Database: Supabase
-        - データベース: Supabase
-    - Testing: RSpec, Capybara, Selenium
-    - テスト: RSpec, Capybara, Selenium
+    - Deployment / デプロイメント:
+        - Backend / バックエンド: Render
+          - Auto-deploy / 自動デプロイ: Triggered on push to main branch / mainブランチへのプッシュ時に自動デプロイ
+        - Frontend / フロントエンド: Vercel
+          - Auto-deploy / 自動デプロイ: Triggered on push to main branch / mainブランチへのプッシュ時に自動デプロイ
+        - Database / データベース: Supabase
+          - Auto-migration / 自動マイグレーション: Enabled / 有効
+    - Testing / テスト: RSpec, Capybara, Selenium
 
 ## 2. Functional Requirements
 ## 2. 機能要件
