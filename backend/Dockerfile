@@ -65,7 +65,7 @@ COPY --from=build /rails /rails
 # Create necessary directories and set permissions
 RUN mkdir -p db log storage tmp && \
     useradd rails --create-home --shell /bin/bash && \
-    chown -R rails:rails /usr/local/bundle db log storage tmp
+    chown -R rails:rails /usr/local/bundle db log storage tmp /rails
 USER rails:rails
 
 # Entrypoint prepares the database.
