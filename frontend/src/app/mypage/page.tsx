@@ -4,11 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import { User } from '@/lib/apiClient';
 
 const MyPage = () => {
   const router = useRouter();
-  const { user, isLoading, isAuthenticated, checkAuth } = useAuth();
-  const [localUser, setLocalUser] = useState<any>(null);
+  const { user, isLoading, checkAuth } = useAuth();
+  const [localUser, setLocalUser] = useState<User | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {

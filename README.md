@@ -1,14 +1,44 @@
 # portfolio-next-rails-ecsite
 # ポートフォリオ Next.js + Rails ECサイト
 
-## 1. Overview
-## 1. 概要
+## 1. Local Development Setup / ローカル開発環境設定
 
-## 2. Requirements Specification
-## 2. 要件仕様
+### Setup Steps / セットアップ手順
+1. Clone the repository / リポジトリをクローン
+```
+git clone git@github.com:tomooshima0828/portfolio-next-rails-ecsite.git
+```
+2. Navigate to the project directory / プロジェクトディレクトリに移動
+```
+cd portfolio-next-rails-ecsite
+```
+3. Build and run the containers / コンテナを構築して起動
+```
+docker compose build
+docker compose up
+```
+4. Access the application / アプリケーションにアクセス
+```
+http://localhost:3000
+```
 
-## 3. Implementation Plan
-## 3. 実装計画
+### Linting / リント
+```
+# backend (Rubocop) executable on the root directory
+docker compose run --rm backend bundle exec rubocop -A
+
+# frontend (ESLint) executable on the root directory
+docker compose run --rm frontend yarn run lint
+```
+
+## 2. Overview
+## 2. 概要
+
+## 3. Requirements Specification
+## 3. 要件仕様
+
+## 4. Implementation Plan
+## 4. 実装計画
 
 ```
 portfolio-next-rails-ecsite/
@@ -25,16 +55,16 @@ portfolio-next-rails-ecsite/
     └── requirements_specification.md
 ```
 
-## 4. Technology Selection
-## 4. 技術選定
+## 5. Technology Selection
+## 5. 技術選定
 
-## 5. Database Schema
-## 5. データベーススキーマ
+## 6. Database Schema
+## 6. データベーススキーマ
 
-## 6. ER Diagram
-## 6. ER図
+## 7. ER Diagram
+## 7. ER図
 
-## 7. Database Connection / データベース接続
+## 8. Database Connection / データベース接続
 
 DBeaverなどのデータベースクライアントツールで接続する場合は以下の情報を使用してください。
 
@@ -49,10 +79,7 @@ DBeaverなどのデータベースクライアントツールで接続する場�
 - **Database**: `portfolio_test`
 - その他は開発環境と同様
 
-### Production / 本番環境
-- 環境変数で設定
-
-## 8. Development Workflow / 開発ワークフロー
+## 9. Development Workflow / 開発ワークフロー
 
 ### Branch Naming Convention / ブランチ命名規則
 
@@ -100,7 +127,7 @@ DBeaverなどのデータベースクライアントツールで接続する場�
 2. **Commit changes** / **変更をコミット**:
    ```bash
    git add .
-   git commit -m "feat: ユーザー認証機能を実装"
+   git commit -m "feat: Implement input fields for user authentication"
    ```
 
 3. **Push to remote** / **リモートにプッシュ**:

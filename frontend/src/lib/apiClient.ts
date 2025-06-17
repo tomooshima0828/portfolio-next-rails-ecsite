@@ -2,7 +2,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3
 
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-  body?: Record<string, any>;
+  body?: Record<string, unknown>;
   headers?: Record<string, string>;
   credentials?: RequestCredentials;
 };
@@ -55,14 +55,16 @@ export const apiClient = async <T>(
       try {
         const errorData = await response.json(); // まずJSONとしてパースを試みる
         errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
-      } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (_e) {
         // JSONでなければテキストとして取得
         try {
           const textError = await response.text();
           if (textError) {
             errorMessage = textError;
           }
-        } catch (textFetchError) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (_textFetchError) {
           // テキスト取得も失敗した場合は何もしない (初期のerrorMessageを使用)
         }
       }
