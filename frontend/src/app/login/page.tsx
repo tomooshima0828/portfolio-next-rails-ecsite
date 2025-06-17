@@ -47,7 +47,7 @@ export default function LoginPage() {
             <p>Error: {typeof error === 'string' ? error : 'An error occurred during login'}</p>
           </div>
         )}
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -63,7 +63,7 @@ export default function LoginPage() {
               placeholder="Enter your email"
             />
           </div>
-          
+
           <div>
             <div className="flex justify-between items-center">
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
@@ -83,7 +83,7 @@ export default function LoginPage() {
               placeholder="Enter your password"
             />
           </div>
-          
+
           <div>
             <button
               type="submit"
@@ -94,27 +94,13 @@ export default function LoginPage() {
             </button>
           </div>
         </form>
-        
+
         <div className="mt-6">
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">Or continue with / または</span>
-            </div>
-          </div>
-          
           <div className="mt-6">
             <p className="text-center text-sm text-gray-600">
               Don't have an account? / アカウントをお持ちでない方{' '}
-              <Link href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
+              <Link href="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">
                 Sign Up / 新規登録
-              </Link>
-            </p>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              <Link href="/" className="font-medium text-indigo-600 hover:text-indigo-500">
-                Back to home / ホームに戻る
               </Link>
             </p>
           </div>

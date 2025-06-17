@@ -190,7 +190,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     login,
     register,
     logout,
-    checkAuth, // 新しい関数を追加
+    checkAuth
   };
 
   return (

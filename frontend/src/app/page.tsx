@@ -2,13 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchHello } from '@/lib/apiClient';
 
 export default function Home() {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isLoading } = useAuth();
+  const router = useRouter();
   const [message, setMessage] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isLoading, isAuthenticated, router]);
 
   useEffect(() => {
     const getMessage = async () => {
@@ -18,15 +26,25 @@ export default function Home() {
         setError(null);
       } catch (err: unknown) {
         console.error('Error fetching data:', err);
-        const errorMessage = err instanceof Error ? err.message : '不明なエラーが発生しました';
-        setError(`バックエンドからのデータ取得に失敗しました: ${errorMessage}`);
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        setError(`Failed to fetch data from backend: ${errorMessage}`);
       }
     };
 
-    getMessage();
-  }, []);
+    if (isAuthenticated) {
+      getMessage();
+    }
+  }, [isAuthenticated]);
 
-  // エラーが発生した場合の表示
+  if (isLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <p className="text-lg text-gray-600">Checking authentication information...</p>
+      </div>
+    );
+  }
+
+  // Error handling
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center p-4">

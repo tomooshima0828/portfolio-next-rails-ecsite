@@ -36,9 +36,8 @@ const Header = () => {
               <>
                 <Link
                   href="/mypage"
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/mypage' ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${pathname === '/mypage' ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    }`}
                 >
                   My Page
                   <span className="block text-xs text-gray-500">マイページ</span>
@@ -54,19 +53,17 @@ const Header = () => {
             ) : (
               <>
                 <Link
-                  href="/register"
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/register' ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+                  href="/signup"
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${pathname === '/signup' ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    }`}
                 >
                   Sign Up
                   <span className="block text-xs text-gray-500">新規登録</span>
                 </Link>
                 <Link
                   href="/login"
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname === '/login' ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
+                  className={`px-3 py-2 rounded-md text-sm font-medium ${pathname === '/login' ? 'bg-gray-100 text-gray-900' : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                    }`}
                 >
                   Login
                   <span className="block text-xs text-gray-500">ログイン</span>
