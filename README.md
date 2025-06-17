@@ -11,7 +11,16 @@
     cd portfolio-next-rails-ecsite
     ```
 
-2.  **Build and run the containers / コンテナを構築して起動**
+2.  **Install frontend dependencies / フロントエンドの依存関係をインストール**
+    ```bash
+    cd frontend
+    npm install
+    cd ..
+    ```
+    *   **Note:** Ensure your Node.js version meets the project requirements (e.g., v18.18.0 or higher, as indicated by package warnings).
+    *   **注意:** Node.jsのバージョンがプロジェクトの要件（パッケージの警告で示されるv18.18.0以上など）を満たしていることを確認してください。
+
+3.  **Build and run the containers / コンテナを構築して起動**
     *   This will start the backend and frontend servers.
     *   これにより、バックエンドとフロントエンドのサーバーが起動します。
     ```bash
@@ -19,14 +28,14 @@
     docker compose up -d
     ```
 
-3.  **Set up the database / データベースをセットアップ**
+4.  **Set up the database / データベースをセットアップ**
     *   This command creates the database, runs migrations, and populates it with initial data all at once.
     *   データベースの作成、マイグレーションの実行、初期データの投入を一度に行います。
     ```bash
     docker compose exec backend bin/rails db:setup
     ```
 
-4.  **Access the application / アプリケーションにアクセス**
+5.  **Access the application / アプリケーションにアクセス**
     *   Frontend / フロントエンド: [http://localhost:3000](http://localhost:3000)
     *   Backend API (for reference) / バックエンド API (参考): [http://localhost:3001](http://localhost:3001)
 
