@@ -8,19 +8,31 @@ FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 WORKDIR /rails
 
 # Set production environment
-ENV RAILS_ENV="production" \
-    BUNDLE_DEPLOYMENT="1" \
+ENV LANG=C.UTF-8 \
+    TZ=Asia/Tokyo \
+    RAILS_ENV="production" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development"
+    BUNDLE_JOBS=4 \
+    BUNDLE_RETRY=3
 
+# --- Build stage ---
+FROM base AS build
 
-# Throw-away build stage to reduce size of final image
-FROM base as build
+ENV BUNDLE_WITHOUT="" \
+    BUNDLE_DEPLOYMENT="0"
 
-# Install packages needed to build gems
+# Install build dependencies for gems with native extensions
+# AND runtime dependencies that might be needed during bundle install (e.g., for pg gem)
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libpq-dev libvips pkg-config zlib1g-dev libicu-dev
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    git \
+    pkg-config \
+    zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
 
+# Copy Gemfile and Gemfile.lock
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
@@ -39,8 +51,12 @@ FROM base
 
 # Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libvips postgresql-client && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get install --no-install-recommends -y \
+    curl \
+    libvips \
+    postgresql-client \
+    zlib1g && \
+    rm -rf /var/lib/apt/lists/* /var/cache/apt/archives
 
 # Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle

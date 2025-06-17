@@ -12,6 +12,16 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // リダイレクト設定
+  async redirects() {
+    return [
+      {
+        source: '/register',
+        destination: '/signup',
+        permanent: true, // 308 ステータスコード（永続的リダイレクト）
+      },
+    ];
+  },
   // 開発サーバーの設定
   async headers() {
     return [

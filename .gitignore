@@ -17,9 +17,9 @@ Thumbs.db
 *.log
 
 # 環境変数（例外的にルートでも管理）
-# .env
-# .env.*
-# !.env.example
+.env
+.env.*
+!.env.example
 
 # サブディレクトリの設定を読み込む
 /frontend/.next

@@ -1,14 +1,56 @@
 # portfolio-next-rails-ecsite
 # ポートフォリオ Next.js + Rails ECサイト
 
-## 1. Overview
-## 1. 概要
+## 1. Local Development Setup / ローカル開発環境設定
 
-## 2. Requirements Specification
-## 2. 要件仕様
+### Setup Steps / セットアップ手順
 
-## 3. Implementation Plan
-## 3. 実装計画
+1.  **Clone the repository / リポジトリをクローン**
+    ```bash
+    git clone git@github.com:tomooshima0828/portfolio-next-rails-ecsite.git
+    cd portfolio-next-rails-ecsite
+    ```
+
+2.  **Build and run the containers / コンテナを構築して起動**
+    *   This will start the backend and frontend servers.
+    *   これにより、バックエンドとフロントエンドのサーバーが起動します。
+    ```bash
+    docker compose build
+    docker compose up -d
+    ```
+
+3.  **Set up the database / データベースをセットアップ**
+    *   This command creates the database, runs migrations, and populates it with initial data all at once.
+    *   データベースの作成、マイグレーションの実行、初期データの投入を一度に行います。
+    ```bash
+    docker compose exec backend bin/rails db:setup
+    ```
+
+4.  **Access the application / アプリケーションにアクセス**
+    *   Frontend / フロントエンド: [http://localhost:3000](http://localhost:3000)
+    *   Backend API (for reference) / バックエンド API (参考): [http://localhost:3001](http://localhost:3001)
+
+### Linting / リント
+
+*   Please run the commands in the root directory of the project.
+*   コマンドはプロジェクトのルートディレクトリで実行してください。
+
+```bash
+# backend (Rubocop)
+docker compose run --rm backend bundle exec rubocop -A
+
+# frontend (ESLint)
+docker compose run --rm frontend npm run lint
+```
+
+## 2. Overview
+## 2. 概要
+
+## 3. Requirements Specification
+## 3. 要件仕様
+
+## 4. Implementation Plan
+## 4. 実装計画
 
 ```
 portfolio-next-rails-ecsite/
@@ -25,16 +67,16 @@ portfolio-next-rails-ecsite/
     └── requirements_specification.md
 ```
 
-## 4. Technology Selection
-## 4. 技術選定
+## 5. Technology Selection
+## 5. 技術選定
 
-## 5. Database Schema
-## 5. データベーススキーマ
+## 6. Database Schema
+## 6. データベーススキーマ
 
-## 6. ER Diagram
-## 6. ER図
+## 7. ER Diagram
+## 7. ER図
 
-## 7. Database Connection / データベース接続
+## 8. Database Connection / データベース接続
 
 DBeaverなどのデータベースクライアントツールで接続する場合は以下の情報を使用してください。
 
@@ -49,10 +91,7 @@ DBeaverなどのデータベースクライアントツールで接続する場�
 - **Database**: `portfolio_test`
 - その他は開発環境と同様
 
-### Production / 本番環境
-- 環境変数で設定
-
-## 8. Development Workflow / 開発ワークフロー
+## 9. Development Workflow / 開発ワークフロー
 
 ### Branch Naming Convention / ブランチ命名規則
 
@@ -100,7 +139,7 @@ DBeaverなどのデータベースクライアントツールで接続する場�
 2. **Commit changes** / **変更をコミット**:
    ```bash
    git add .
-   git commit -m "feat: ユーザー認証機能を実装"
+   git commit -m "feat: Implement input fields for user authentication"
    ```
 
 3. **Push to remote** / **リモートにプッシュ**:
