@@ -3,6 +3,10 @@
 # If running the rails server then create or migrate existing database
 if [ "${1}" == "./bin/rails" ] && [ "${2}" == "server" ]; then
   ./bin/rails db:prepare
+  
+  # シードデータを実行（既存データがある場合は注意）
+  echo "Running db:seed to create initial data..."
+  ./bin/rails db:seed
 fi
 
 exec "${@}"
