@@ -3,6 +3,7 @@
 module Api
   module V1
     class AuthController < Api::V1::BaseController
+      # ログインしていない場合は認証エラーを返す
       before_action :authenticate_user!
 
       # GET /api/v1/auth/current_user

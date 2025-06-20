@@ -5,8 +5,10 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import './globals.css';
 
+// Google FontsのInterフォントをインポート
 const inter = Inter({ subsets: ['latin'] });
 
+// タブに表示されるタイトルとして使用
 export const metadata: Metadata = {
   title: 'E-Commerce App',
   description: 'ポートフォリオ用ECサイト',
