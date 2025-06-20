@@ -12,21 +12,25 @@ This issue is to implement the product display features for the EC site. This in
 ## 2. 関連要件
 
 - **U-005: Product List Display / 商品一覧表示**
-  - Display registered products in a list format.
+  - Display registered products in a list format on the homepage.
+  - Accessible to all users without login.
   - Show product image, name, and price.
   - Implement pagination.
   - (Future) Implement sorting (new arrivals, price, etc.).
 - **U-005: 商品一覧表示**
-  - 登録されている商品を一覧形式で表示する。
+  - ホームページに、登録されている商品を一覧形式で表示する。
+  - ログインせずに誰でも閲覧可能とする。
   - 商品画像、商品名、価格を表示する。
   - ページネーション機能を実装する。
   - （将来的に）並び替え機能（新着順、価格順など）を実装する。
 
 - **U-006: Product Details Display / 商品詳細表示**
   - Display detailed information for a specific product.
+  - Accessible to all users without login.
   - Show multiple product images, detailed description, price, and inventory status.
 - **U-006: 商品詳細表示**
   - 特定の商品の詳細情報を表示する。
+  - ログインせずに誰でも閲覧可能とする。
   - 商品の複数の画像、詳細な説明文、価格、在庫状況などを表示する。
 
 - **U-008: Category-Based Product Display / カテゴリ別商品表示**
@@ -43,11 +47,11 @@ This issue is to implement the product display features for the EC site. This in
 - **T-001: Create Product Model and Migrations / Productモデルとマイグレーションの作成**
   - Define attributes: name, description, price, stock, category, images, etc.
   - 属性定義: name, description, price, stock, category, images など
-- **T-002: Implement API Endpoints for Products / 商品用APIエンドポイントの実装**
-  - `GET /api/v1/products`: Retrieve a list of products (with pagination and category filtering).
-  - `GET /api/v1/products`: 商品一覧取得 (ページネーション、カテゴリ絞り込み対応)
-  - `GET /api/v1/products/:id`: Retrieve details of a specific product.
-  - `GET /api/v1/products/:id`: 特定商品詳細取得
+- **T-002: Implement API Endpoints for Products (Public Access) / 商品用APIエンドポイントの実装 (公開アクセス)**
+  - `GET /api/v1/products`: Retrieve a list of products (with pagination and category filtering). Ensure no authentication is required.
+  - `GET /api/v1/products`: 商品一覧取得 (ページネーション、カテゴリ絞り込み対応)。認証が不要であることを確認する。
+  - `GET /api/v1/products/:id`: Retrieve details of a specific product. Ensure no authentication is required.
+  - `GET /api/v1/products/:id`: 特定商品詳細取得。認証が不要であることを確認する。
 - **T-003: Implement API Endpoint for Categories / カテゴリ用APIエンドポイントの実装**
   - `GET /api/v1/categories`: Retrieve a list of categories.
   - `GET /api/v1/categories`: カテゴリ一覧取得
@@ -61,7 +65,9 @@ This issue is to implement the product display features for the EC site. This in
 ### 3.2. Frontend (Next.js)
 ### 3.2. フロントエンド (Next.js)
 
-- **T-006: Create Product List Page / 商品一覧ページの作成**
+- **T-006: Create Product List Page (to serve as Homepage) / 商品一覧ページ（ホームページとして機能）の作成**
+  - This page will serve as the main homepage of the application.
+  - このページはアプリケーションのメインホームページとして機能する。
   - Fetch and display products from the API.
   - APIから商品を取得して表示する。
   - Implement pagination UI.
@@ -110,6 +116,10 @@ This issue is to implement the product display features for the EC site. This in
 - **AC-007:** フロントエンドコンポーネントはレスポンシブであり、様々な画面サイズで正しく表示されること。
 - **AC-008:** All related tests (RSpec, Jest/RTL) pass.
 - **AC-008:** 関連するすべてのテスト（RSpec, Jest/RTL）がパスすること。
+- **AC-009:** The product list page and product detail pages are accessible to all users without requiring login.
+- **AC-009:** 商品一覧ページおよび商品詳細ページは、ログインせずに誰でもアクセス可能であること。
+- **AC-010:** The homepage of the application displays the product list.
+- **AC-010:** アプリケーションのホームページには商品一覧が表示されること。
 
 ## 5. Image Storage / 画像の保存
 
