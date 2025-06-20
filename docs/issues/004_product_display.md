@@ -111,9 +111,17 @@ This issue is to implement the product display features for the EC site. This in
 - **AC-008:** All related tests (RSpec, Jest/RTL) pass.
 - **AC-008:** 関連するすべてのテスト（RSpec, Jest/RTL）がパスすること。
 
-## 5. Notes / 備考
-- Product image storage and handling (e.g., Cloudinary) will be integrated.
-- 商品画像の保存と取り扱い（例: Cloudinary）を統合する。
+## 5. Image Storage / 画像の保存
+
+### Development Environment / 開発環境
+- Use local storage for simplicity.
+- シンプルさのためローカルストレージを使用する。
+
+### Production Environment / 本番環境
+- Use Cloudinary for image storage and delivery.
+- 画像の保存と配信にCloudinaryを使用する。
+
+## 6. Notes / 備考
 - For MVP, advanced search functionality (U-007) is out of scope for this issue but will be considered for future implementation.
 - MVPでは、高度な検索機能（U-007）はこのIssueのスコープ外とするが、将来的な実装のために考慮する。
 - Sorting functionality for the product list (U-005 detail) is also considered a future enhancement.
