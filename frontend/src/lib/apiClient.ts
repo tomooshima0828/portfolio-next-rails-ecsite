@@ -146,3 +146,50 @@ export const getCurrentUser = async (): Promise<AuthResponse> => {
 export const fetchHello = async (): Promise<{ message: string }> => {
   return apiClient<{ message: string }>('/hello');
 };
+
+// 商品関連の型定義
+export type Category = {
+  id: number;
+  name: string;
+  description: string;
+};
+
+export type Product = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  category_id: number;
+  category?: Category;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductsResponse = {
+  products: Product[];
+  meta: {
+    current_page: number;
+    total_pages: number;
+    total_count: number;
+  };
+};
+
+// 商品一覧を取得
+export const fetchProducts = async (page = 1, perPage = 10, categoryId?: number): Promise<ProductsResponse> => {
+  let endpoint = `/products?page=${page}&per_page=${perPage}`;
+  if (categoryId) {
+    endpoint += `&category_id=${categoryId}`;
+  }
+  return apiClient<ProductsResponse>(endpoint);
+};
+
+// 商品詳細を取得
+export const fetchProduct = async (id: number): Promise<Product> => {
+  return apiClient<Product>(`/products/${id}`);
+};
+
+// カテゴリ一覧を取得
+export const fetchCategories = async (): Promise<Category[]> => {
+  return apiClient<Category[]>('/categories');
+};

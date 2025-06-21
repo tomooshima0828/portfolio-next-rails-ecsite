@@ -14,7 +14,11 @@ Rails.application.routes.draw do
       delete 'logout', to: 'sessions#destroy'
       get 'auth/current_user', to: 'auth#current_user_info'
 
-      # その他のAPIルート
+      # 商品関連のAPIエンドポイント
+      resources :products, only: [:index, :show]
+      
+      # カテゴリ関連のAPIエンドポイント
+      resources :categories, only: [:index]
     end
   end
 

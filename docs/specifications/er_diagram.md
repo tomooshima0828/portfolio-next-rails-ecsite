@@ -20,7 +20,7 @@ erDiagram
         bigint id PK
         string name
         text description
-        integer price
+        decimal price
         integer stock
         bigint category_id FK
         datetime created_at
@@ -30,6 +30,7 @@ erDiagram
     categories {
         bigint id PK
         string name
+        text description
         datetime created_at
         datetime updated_at
     }

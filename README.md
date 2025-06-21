@@ -1,11 +1,8 @@
 # portfolio-next-rails-ecsite
 # ポートフォリオ Next.js + Rails ECサイト
 
-## URL(Vercel for frontend)
+## URL(Vercel)
 https://portfolio-next-rails-ecsite.vercel.app
-
-## URL(Render for backend for your information only)
-https://portfolio-next-rails-ecsite.onrender.com
 
 ## 1. Local Development Setup / ローカル開発環境設定
 

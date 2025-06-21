@@ -83,10 +83,10 @@ This EC site includes basic features for users to browse and purchase products, 
 
 #### 2.1.2. Product Features
 #### 2.1.2. 商品機能
-- **U-005: Product List Display**
-- **U-005: 商品一覧表示**
-    - Description: Registered products are displayed in a list.
-    - 説明: 登録されている商品を一覧で表示する。
+- **U-005: Product List Display (Homepage)**
+- **U-005: 商品一覧表示（ホームページ）**
+    - Description: Registered products are displayed in a list on the homepage. Accessible to all users without login.
+    - 説明: ホームページに、登録されている商品を一覧で表示する。ログインせずに誰でも閲覧可能とする。
     - Details:
     - 詳細:
         - Product image, product name, and price are displayed.
@@ -98,8 +98,8 @@ This EC site includes basic features for users to browse and purchase products, 
 
 - **U-006: Product Details Display**
 - **U-006: 商品詳細表示**
-    - Description: Detailed information of a specific product is displayed.
-    - 説明: 特定の商品の詳細情報を表示する。
+    - Description: Detailed information of a specific product is displayed. Accessible to all users without login.
+    - 説明: 特定の商品の詳細情報を表示する。ログインせずに誰でも閲覧可能とする。
     - Details:
     - 詳細:
         - Multiple product images, detailed description, price, and inventory status are displayed.
