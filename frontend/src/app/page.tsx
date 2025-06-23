@@ -7,24 +7,24 @@ import ProductList from '@/components/products/ProductList';
 
 export default function Home() {
   const { isAuthenticated, user, isLoading } = useAuth();
+  const [isMounted, setIsMounted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   return (
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* ヘッダーセクション */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
-            E-Commerce App
-            <span className="block text-2xl text-gray-600 mt-2">Eコマースアプリ</span>
-          </h1>
-          
-          {isAuthenticated && user ? (
-            <div className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
-              <p>ようこそ、{user.name}さん！</p>
-            </div>
-          ) : (
+          {isMounted && !isLoading && !isAuthenticated || !user ? (
             <div className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
+              <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl mb-4">
+                E-Commerce App
+                <span className="block text-2xl text-gray-600 mt-2">Eコマースアプリ</span>
+              </h1>
               <p>ログインすると、注文履歴の確認や商品の購入ができます。</p>
               <div className="mt-4 space-x-4">
                 <Link
@@ -41,9 +41,9 @@ export default function Home() {
                 </Link>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
-        
+
         {/* 商品一覧セクション */}
         <div className="mt-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">商品一覧</h2>

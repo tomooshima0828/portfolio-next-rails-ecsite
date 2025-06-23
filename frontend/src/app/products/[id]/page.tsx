@@ -43,7 +43,7 @@ export default function ProductDetail() {
 
   // 在庫状況に応じたラベルとスタイル
   const getStockInfo = (stock: number) => {
-    if (stock > 10) {
+    if (stock >= 10) {
       return {
         label: '在庫あり',
         style: 'bg-green-100 text-green-800',

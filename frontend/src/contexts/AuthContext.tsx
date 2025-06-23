@@ -27,7 +27,7 @@ const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   login: async () => ({ status: { code: 0, message: '' } }),
   register: async () => ({ status: { code: 0, message: '' } }),
-  logout: async () => {},
+  logout: async () => { },
   error: null,
   checkAuth: async () => false,
 });
@@ -55,10 +55,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string): Promise<AuthResponse> => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const response = await loginUser({ email, password });
-      
+
       if (response.status.code === 200 && response.data && response.token) {
         // トークンを保存
         saveToken(response.token);
@@ -90,10 +90,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }): Promise<AuthResponse> => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const response = await registerUser(userData);
-      
+
       if (response.status.code === 200 && response.data && response.token) {
         // トークンを保存
         saveToken(response.token);
@@ -118,7 +118,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       // バックエンドにログアウトリクエストを送信
       await logoutUser();
@@ -131,7 +131,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // エラーが発生してもローカルの認証状態はクリアする
       removeToken();
       setUser(null);
-      
+
       const errorMessage = error instanceof Error ? error.message : 'ログアウト中にエラーが発生しました';
       setError(errorMessage);
       setIsLoading(false);
@@ -143,7 +143,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const initAuth = async () => {
       await checkAuth();
     };
-    
+
     initAuth();
   }, []);
 
@@ -151,34 +151,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const checkAuth = async (): Promise<boolean> => {
     // SSR時はlocalStorageにアクセスしない
     if (typeof window === 'undefined') {
+      setIsLoading(false);
       return false;
     }
 
     const token = localStorage.getItem('auth_token');
-    
+
     if (!token) {
       setUser(null);
       setIsLoading(false);
       return false;
     }
-    
+
+    // ローディング状態を開始（トークンがある場合のみ）
+    setIsLoading(true);
     try {
       const response = await getCurrentUser();
-      
+
       if (response.status.code === 200 && response.data) {
         setUser(response.data);
-        setIsLoading(false);
         return true;
       } else {
+        // 正常レスポンスだがデータがない場合などもトークンは無効とみなす
+        removeToken();
         setUser(null);
-        setIsLoading(false);
         return false;
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (_error) {
+    } catch (error) {
+      // API呼び出しが失敗した場合（例: 401 Unauthorized）、
+      // トークンは無効なので削除する
+      console.error('Check auth failed, removing token:', error);
+      removeToken();
       setUser(null);
-      setIsLoading(false);
       return false;
+    } finally {
+      // 成功・失敗にかかわらずローディング状態を終了
+      setIsLoading(false);
     }
   };
 

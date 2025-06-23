@@ -16,13 +16,17 @@ const ProductCard = ({ product }: ProductCardProps) => {
   }).format(product.price);
 
   // 在庫状況に応じたラベルとスタイル
-  const stockLabel = product.stock > 0 
-    ? `在庫: ${product.stock}点` 
-    : '在庫切れ';
+  const stockLabel = product.stock >= 10 
+    ? '在庫あり' 
+    : product.stock > 0 
+      ? `残り${product.stock}点` 
+      : '在庫切れ'
   
-  const stockStyle = product.stock > 0 
+  const stockStyle = product.stock >= 10 
     ? 'bg-green-100 text-green-800' 
-    : 'bg-red-100 text-red-800';
+    : product.stock > 0 
+      ? 'bg-yellow-100 text-yellow-800' 
+      : 'bg-red-100 text-red-800';
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">

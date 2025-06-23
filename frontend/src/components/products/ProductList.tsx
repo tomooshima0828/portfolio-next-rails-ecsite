@@ -12,7 +12,7 @@ const ProductList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const perPage = 12;
 
@@ -20,6 +20,8 @@ const ProductList = () => {
   const loadProducts = async () => {
     setIsLoading(true);
     try {
+      // テスト用に3秒の遅延を追加
+      // await new Promise(resolve => setTimeout(resolve, 3000));
       const data = await fetchProducts(currentPage, perPage, selectedCategory);
       setProducts(data.products);
       setTotalPages(data.meta.total_pages);
@@ -68,8 +70,11 @@ const ProductList = () => {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      <div className="flex justify-center items-center min-h-[400px]">
+        <div className="relative">
+          <div className="w-16 h-16 border-4 border-indigo-200 rounded-full"></div>
+          <div className="absolute top-0 left-0 w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
       </div>
     );
   }

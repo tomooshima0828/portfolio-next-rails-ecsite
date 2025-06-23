@@ -49,23 +49,28 @@ export const apiClient = async <T>(
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    
+
     if (!response.ok) {
       let errorMessage = `HTTP error! status: ${response.status}`;
       try {
-        const errorData = await response.json(); // まずJSONとしてパースを試みる
-        errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (_e) {
-        // JSONでなければテキストとして取得
+        const errorData = await response.json();
+        // Rails APIからの構造化されたエラーレスポンスを適切に処理
+        errorMessage =
+          errorData?.status?.message || // { status: { message: '...' } } 形式
+          errorData.message || // { message: '...' } 形式
+          errorData.error || // { error: '...' } 形式
+          JSON.stringify(errorData); // 上記以外の場合は全体を文字列化
+      } catch (jsonError) {
+        // JSONのパースに失敗した場合、レスポンスボディをテキストとして取得しようと試みる
         try {
           const textError = await response.text();
           if (textError) {
             errorMessage = textError;
           }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (_textFetchError) {
-          // テキスト取得も失敗した場合は何もしない (初期のerrorMessageを使用)
+          // テキストボディが空の場合は、初期のHTTPステータスエラーメッセージが使われる
+        } catch (textError) {
+          // テキストの読み取りにも失敗した場合は、初期のエラーメッセージが最終的に使用される
+          console.error('Failed to parse error response as JSON or text.', textError);
         }
       }
       throw new Error(errorMessage);
