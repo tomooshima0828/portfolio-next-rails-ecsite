@@ -14,8 +14,6 @@ module Api
           data: user_response(current_user)
         }
       end
-
-
     end
   end
 end

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Category, fetchCategories, createProduct } from '@/lib/apiClient';
+import Image from 'next/image';
 
 const ProductForm = () => {
   const [name, setName] = useState('');
@@ -120,7 +121,7 @@ const ProductForm = () => {
         <div className="mt-1 flex items-center space-x-4">
           <div className="w-24 h-24 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden">
             {imagePreview ? (
-              <img src={imagePreview} alt="プレビュー" className="w-full h-full object-cover" />
+              <Image src={imagePreview} width={100} height={100} alt="プレビュー" className="w-full h-full object-cover" />
             ) : (
               <span className="text-xs text-gray-500">プレビュー</span>
             )}

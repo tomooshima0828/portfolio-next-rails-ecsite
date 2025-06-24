@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import { fetchProducts, fetchCategories, Product, Category } from '@/lib/apiClient';
@@ -20,7 +20,7 @@ const ProductList = () => {
   const perPage = 12;
 
   // 商品データを取得
-  const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
     setIsLoading(true);
     try {
       // テスト用に3秒の遅延を追加
@@ -36,7 +36,7 @@ const ProductList = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [currentPage, perPage, selectedCategory]);
 
   // カテゴリデータを取得
   const loadCategories = async () => {
@@ -57,7 +57,7 @@ const ProductList = () => {
   // ページやカテゴリが変更されたら商品を再取得
   useEffect(() => {
     loadProducts();
-  }, [currentPage, selectedCategory]);
+  }, [currentPage, selectedCategory, loadProducts]);
 
   // ページ変更ハンドラ
   const handlePageChange = (page: number) => {

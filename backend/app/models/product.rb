@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Product < ApplicationRecord
   # URLヘルパーをモデル内で使えるようにする
   include Rails.application.routes.url_helpers
@@ -12,9 +14,9 @@ class Product < ApplicationRecord
 
   def main_image_url
     # 画像がアタッチされている場合のみ、そのURLを生成して返す
-    if main_image.attached?
-      # ホスト名を含む完全なURLを生成する
-      Rails.application.routes.url_helpers.url_for(main_image)
-    end
+    return unless main_image.attached?
+
+    # ホスト名を含む完全なURLを生成する
+    Rails.application.routes.url_helpers.url_for(main_image)
   end
 end

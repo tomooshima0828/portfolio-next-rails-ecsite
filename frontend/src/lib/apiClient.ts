@@ -67,7 +67,7 @@ export const apiClient = async <T>(
           errorData.message || // { message: '...' } 形式
           errorData.error || // { error: '...' } 形式
           JSON.stringify(errorData); // 上記以外の場合は全体を文字列化
-      } catch (jsonError) {
+      } catch {
         // JSONのパースに失敗した場合、レスポンスボディをテキストとして取得しようと試みる
         try {
           const textError = await response.text();

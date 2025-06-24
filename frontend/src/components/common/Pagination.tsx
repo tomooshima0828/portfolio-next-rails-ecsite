@@ -22,7 +22,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
       const sidePages = Math.floor(maxPagesToShow / 2);
       
       let startPage = Math.max(1, currentPage - sidePages);
-      let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+      const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
       
       // 右側に十分なページがない場合、左側に寄せる
       if (endPage - startPage < maxPagesToShow - 1) {

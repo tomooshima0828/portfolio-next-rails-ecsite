@@ -34,11 +34,11 @@ module Api
       # 認証メソッド（実際のJWT認証はDevise JWTで実装）
       def authenticate_user!
         # 認証トークンがない場合は401エラー
-        unless current_user
-          render json: {
-            status: { code: 401, message: '認証が必要です' }
-          }, status: :unauthorized
-        end
+        return if current_user
+
+        render json: {
+          status: { code: 401, message: '認証が必要です' }
+        }, status: :unauthorized
       end
 
       def not_found

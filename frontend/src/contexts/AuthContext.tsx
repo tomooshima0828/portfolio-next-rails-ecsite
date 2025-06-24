@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { User, AuthResponse, loginUser, registerUser, logoutUser, getCurrentUser } from '@/lib/apiClient';
 
 // 認証コンテキストの型定義
@@ -42,14 +42,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [error, setError] = useState<string | null>(null);
 
   // トークンをローカルストレージに保存する関数
-  const saveToken = (token: string) => {
+  const saveToken = useCallback((token: string) => {
     localStorage.setItem('auth_token', token);
-  };
+  }, []);
 
   // トークンをローカルストレージから削除する関数
-  const removeToken = () => {
+  const removeToken = useCallback(() => {
     localStorage.removeItem('auth_token');
-  };
+  }, []);
 
   // ログイン処理
   const login = async (email: string, password: string): Promise<AuthResponse> => {
@@ -138,17 +138,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // 初期化時にユーザー情報を取得
-  useEffect(() => {
-    const initAuth = async () => {
-      await checkAuth();
-    };
-
-    initAuth();
-  }, []);
-
   // 認証状態を確認する関数
-  const checkAuth = async (): Promise<boolean> => {
+  const checkAuth = useCallback(async (): Promise<boolean> => {
     // SSR時はlocalStorageにアクセスしない
     if (typeof window === 'undefined') {
       setIsLoading(false);
@@ -188,7 +179,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       // 成功・失敗にかかわらずローディング状態を終了
       setIsLoading(false);
     }
-  };
+  }, [setUser, setIsLoading, removeToken]);
+
+  // 初期化時にユーザー情報を取得
+  useEffect(() => {
+    const initAuth = async () => {
+      await checkAuth();
+    };
+
+    initAuth();
+  }, [checkAuth]);
 
   // コンテキストの値を設定
   const value = {

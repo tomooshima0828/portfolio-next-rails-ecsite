@@ -8,7 +8,6 @@ import ProductList from '@/components/products/ProductList';
 export default function Home() {
   const { isAuthenticated, user, isLoading } = useAuth();
   const [isMounted, setIsMounted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
