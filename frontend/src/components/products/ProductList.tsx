@@ -1,11 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { useAuth } from '@/contexts/AuthContext';
 import { fetchProducts, fetchCategories, Product, Category } from '@/lib/apiClient';
 import ProductCard from './ProductCard';
 import Pagination from '../common/Pagination';
 
 const ProductList = () => {
+  const { user } = useAuth();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
@@ -95,6 +98,18 @@ const ProductList = () => {
 
   return (
     <div className="space-y-6">
+      {/* 管理者用の商品登録ボタン */}
+      {user?.role === 'admin' && (
+        <div className="mb-6 text-right">
+          <Link
+            href="/admin/products/new"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            商品を登録する
+          </Link>
+        </div>
+      )}
+
       {/* カテゴリフィルター */}
       <div className="flex flex-wrap gap-2">
         <button

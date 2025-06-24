@@ -1,5 +1,7 @@
 class Api::V1::ProductsController < Api::V1::BaseController
-  skip_before_action :authenticate_user!, only: [:index, :show]
+  # TODO: ログイン機能実装後、createをonlyから削除する
+  skip_before_action :authenticate_user!, only: [:index, :show, :create]
+  before_action :set_product, only: %i[show update destroy]
 
   # GET /api/v1/products
   def index
@@ -14,7 +16,7 @@ class Api::V1::ProductsController < Api::V1::BaseController
     @products = @products.page(params[:page] || 1).per(params[:per_page] || 10)
 
     render json: {
-      products: @products.as_json(include: :category),
+      products: @products.as_json(include: :category, methods: :main_image_url),
       meta: {
         current_page: @products.current_page,
         total_pages: @products.total_pages,
@@ -26,8 +28,52 @@ class Api::V1::ProductsController < Api::V1::BaseController
   # GET /api/v1/products/:id
   def show
     @product = Product.with_category.find(params[:id])
-    render json: @product.as_json(include: :category)
+    render json: @product.as_json(include: :category, methods: :main_image_url)
   rescue ActiveRecord::RecordNotFound
     render json: { error: 'Product not found' }, status: :not_found
+  end
+
+  # POST /api/v1/products
+  def create
+    @product = Product.new(product_params)
+    if @product.save
+      render json: @product.as_json(include: :category, methods: :main_image_url), status: :created
+    else
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /api/v1/products/:id
+  def update
+    if @product.update(product_params)
+      render json: @product
+    else
+      render json: { errors: @product.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  # DELETE /api/v1/products/:id
+  def destroy
+    @product.destroy
+    head :no_content
+  end
+
+  private
+
+  def set_product
+    @product = Product.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Product not found' }, status: :not_found
+  end
+
+  def product_params
+    params.require(:product).permit(
+      :name,
+      :description,
+      :price,
+      :stock,
+      :category_id,
+      :main_image
+    )
   end
 end

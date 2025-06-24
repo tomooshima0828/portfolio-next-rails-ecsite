@@ -2,6 +2,16 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3001',
+        pathname: '/rails/active_storage/blobs/**',
+      },
+    ],
+  },
   // Next.js 15.3.3ではswcMinifyオプションは不要
   // 開発環境でのAPIプロキシ設定
   async rewrites() {

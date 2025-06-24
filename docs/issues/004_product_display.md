@@ -123,16 +123,54 @@ This issue is to implement the product display features for the EC site. This in
 
 ## 5. Image Storage / 画像の保存
 
+- Manage images using Rails Active Storage. / RailsのActive Storageを利用して画像を管理します。
+
 ### Development Environment / 開発環境
-- Use local storage for simplicity.
-- シンプルさのためローカルストレージを使用する。
+- Use Active Storage's local disk service (`:local`). Uploaded files will be stored in the `storage/` directory.
+- Active Storageのローカルディスクサービス (`:local`) を使用します。アップロードされたファイルは `storage/` ディレクトリに保存されます。
 
 ### Production Environment / 本番環境
-- Use Cloudinary for image storage and delivery.
-- 画像の保存と配信にCloudinaryを使用する。
+- Use **Supabase Storage** via Active Storage. This aligns the tech stack since the database is already on Supabase.
+- Active Storageを通じて **Supabase Storage** を使用します。これにより、データベースにSupabaseを利用している既存の技術スタックと統一します。
 
 ## 6. Notes / 備考
 - For MVP, advanced search functionality (U-007) is out of scope for this issue but will be considered for future implementation.
 - MVPでは、高度な検索機能（U-007）はこのIssueのスコープ外とするが、将来的な実装のために考慮する。
 - Sorting functionality for the product list (U-005 detail) is also considered a future enhancement.
 - 商品一覧の並び替え機能（U-005詳細）も将来の拡張機能として考慮する。
+
+## 7. Additional Implementations / 追加実装
+
+During the implementation of product display features, it became necessary to add product registration functionality to verify the display. This led to the following additional implementations.
+
+商品表示機能の実装過程で、表示を確認するための商品登録機能が必要となりました。それに伴い、以下の追加実装を行いました。
+
+### 7.1. Admin Role and Product Registration / 管理者権限と商品登録機能
+
+- **Requirement / 要件:** To register products, a distinction between general users and administrators was needed. A feature was implemented to display a "Register Product" button only to logged-in administrators.
+- **要件:** 商品を登録するために、一般ユーザーと管理者との区別が必要でした。管理者でログインしている場合にのみ「商品を登録する」ボタンを表示する機能を実装しました。
+
+- **Backend (Rails) / バックエンド (Rails):**
+  - Added a `role` column to the `users` table (0: general, 1: admin).
+  - `users`テーブルに`role`カラムを追加しました (0: general, 1: admin)。
+  - Defined an `enum` for `role` in the `User` model.
+  - `User`モデルに`role`の`enum`を定義しました。
+  - Included the `role` in the JWT payload and API responses to securely transmit user roles to the frontend.
+  - JWTペイロードとAPIレスポンスに`role`を含め、ユーザーの役割をフロントエンドに安全に渡すようにしました。
+
+- **Frontend (Next.js) / フロントエンド (Next.js):**
+  - Updated the `User` type in `apiClient.ts` to include the `role` property.
+  - `apiClient.ts`の`User`型に`role`プロパティを追加しました。
+  - In `ProductList.tsx`, used the `useAuth` hook to check the user's role and conditionally render the "Register Product" button, linking to `/admin/products/new`.
+  - `ProductList.tsx`で`useAuth`フックを使用してユーザーの役割を確認し、「商品を登録する」ボタンを条件付きで表示させ、`/admin/products/new`へリンクするようにしました。
+
+### 7.2. Absolute URL Generation for Images / 画像URLの絶対パス化
+
+- **Issue / 課題:** After product registration, images were not displayed on the frontend. This was because Rails was generating relative URLs for Active Storage, which the frontend (running on a different port) could not resolve.
+- **課題:** 商品登録後、フロントエンドで画像が表示されませんでした。これは、RailsがActive StorageのURLを相対パスで生成しており、別ポートで動作するフロントエンドが解決できなかったためです。
+
+- **Solution / 解決策:**
+  - In `config/environments/development.rb`, set `config.action_controller.default_url_options` to specify the host and port of the backend server.
+  - `config/environments/development.rb`に`config.action_controller.default_url_options`を設定し、バックエンドサーバーのホストとポートを明記しました。
+  - This ensures that Active Storage generates absolute URLs (e.g., `http://localhost:3001/...`), allowing the frontend to correctly display the images.
+  - これにより、Active Storageが絶対URL（例: `http://localhost:3001/...`）を生成し、フロントエンドが正しく画像を表示できるようになりました。

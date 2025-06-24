@@ -3,8 +3,8 @@
 class ApplicationController < ActionController::API
   include ActionController::RequestForgeryProtection
   include ActionController::Cookies
-  # APIリクエストに対してはCSRF保護を無効にする
-  protect_from_forgery with: :null_session
+  # JSONリクエスト（API）に対してはCSRF保護をスキップする
+  protect_from_forgery with: :null_session, if: -> { request.format.json? }
   before_action :set_csrf_cookie
 
   # Deviseの設定

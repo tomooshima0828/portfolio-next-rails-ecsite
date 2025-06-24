@@ -15,10 +15,19 @@ export default function ProductDetail() {
   useEffect(() => {
     const loadProduct = async () => {
       if (!params.id) return;
-      
+      // Next.jsではproducts/[id] のようなファイル構造にすると、URLの [id] の部分を params.id という文字列で受け取ることができる
+      // そのため、parseIntで10進数の数値に変換する必要がある
+      const productId = parseInt(params.id as string, 10);
+
+      // IDが数字でない場合（例: /products/new）は、エラーとして処理
+      if (isNaN(productId)) {
+        setError('商品が見つかりませんでした。');
+        setIsLoading(false);
+        return;
+      }
+
       setIsLoading(true);
       try {
-        const productId = parseInt(params.id as string, 10);
         const data = await fetchProduct(productId);
         setProduct(data);
         setError(null);

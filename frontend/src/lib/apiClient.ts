@@ -44,7 +44,14 @@ export const apiClient = async <T>(
   };
 
   if (body) {
-    config.body = JSON.stringify(body);
+    if (body instanceof FormData) {
+      // FormDataの場合はJSON.stringifyしない
+      config.body = body;
+      // Content-Typeヘッダを削除してブラウザに自動設定させる
+      delete (config.headers as Record<string, string>)['Content-Type'];
+    } else {
+      config.body = JSON.stringify(body);
+    }
   }
 
   try {
@@ -95,6 +102,7 @@ export type User = {
   email: string;
   address: string;
   phone: string;
+  role: 'admin' | 'general'; // ユーザーの役割を追加
 };
 
 export type AuthResponse = {
@@ -167,6 +175,7 @@ export type Product = {
   stock: number;
   category_id: number;
   category?: Category;
+  main_image_url?: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -192,6 +201,19 @@ export const fetchProducts = async (page = 1, perPage = 10, categoryId?: number)
 // 商品詳細を取得
 export const fetchProduct = async (id: number): Promise<Product> => {
   return apiClient<Product>(`/products/${id}`);
+};
+
+// 商品を新規作成（画像アップロード対応）
+export const createProduct = async (formData: FormData): Promise<Product> => {
+  // ファイルを送信するため、Content-TypeはapiClient内で設定せず、
+  // ブラウザに自動で設定させる（multipart/form-dataになる）
+  return apiClient<Product>('/products', {
+    method: 'POST',
+    body: formData as unknown as Record<string, unknown>, // 型キャストが必要
+    headers: {
+      // 'Content-Type': 'multipart/form-data' はブラウザが自動で設定するので不要
+    },
+  });
 };
 
 // カテゴリ一覧を取得

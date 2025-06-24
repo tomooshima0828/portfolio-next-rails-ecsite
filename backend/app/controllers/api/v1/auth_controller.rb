@@ -15,18 +15,7 @@ module Api
         }
       end
 
-      private
 
-      # ユーザー情報をレスポンス用に整形する
-      def user_response(user)
-        {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          address: user.address,
-          phone: user.phone
-        }
-      end
     end
   end
 end

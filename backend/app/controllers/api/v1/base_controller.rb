@@ -19,6 +19,18 @@ module Api
 
       private
 
+      # ユーザー情報をレスポンス用に整形する
+      def user_response(user)
+        {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          address: user.address,
+          phone: user.phone,
+          role: user.role
+        }
+      end
+
       # 認証メソッド（実際のJWT認証はDevise JWTで実装）
       def authenticate_user!
         # 認証トークンがない場合は401エラー
