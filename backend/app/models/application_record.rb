@@ -5,7 +5,10 @@ class ApplicationRecord < ActiveRecord::Base
   
   # 本番環境でのPrepared Statementの問題を解決するための設定
   if Rails.env.production?
-    self.connection.execute("DEALLOCATE ALL")
-    self.connection_config[:prepared_statements] = false
+    begin
+      self.connection.execute("DEALLOCATE ALL") rescue nil
+    rescue => e
+      Rails.logger.error "Failed to deallocate statements: #{e.message}"
+    end
   end
 end
