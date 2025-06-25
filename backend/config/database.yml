@@ -28,12 +28,15 @@ production:
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   sslmode: require
   prepared_statements: false
+  statement_limit: 0
+  advisory_locks: false
 
-  pool: 5
+  pool: 3
   connect_timeout: 30
   checkout_timeout: 5
-  idle_timeout: 180
+  idle_timeout: 60
   reaping_frequency: 10
+  reconnect: true
 
   # The password associated with the PostgreSQL role (username).
   #password:
