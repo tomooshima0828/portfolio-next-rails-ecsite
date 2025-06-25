@@ -11,6 +11,9 @@ if Rails.env.production? && ENV['ENABLE_DB_RESET'] == 'true'
   Rails.application.config.after_initialize do
     Rails.logger.info 'Resetting database for portfolio demo purposes...'
     begin
+      # 本番環境でのデータベース操作を許可する環境変数を設定
+      ENV['DISABLE_DATABASE_ENVIRONMENT_CHECK'] = '1'
+      
       # Rakeアプリケーションを読み込む
       Rake.application.load_rakefile
       
