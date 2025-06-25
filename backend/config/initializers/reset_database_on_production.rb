@@ -29,7 +29,18 @@ if Rails.env.production? && ENV['ENABLE_DB_RESET'] == 'true'
       
       # シードデータの投入
       Rails.logger.info 'Running db:seed...'
+      
+      # prepared statementsを無効化
+      old_config = ActiveRecord::Base.connection_db_config.configuration_hash.dup
+      ActiveRecord::Base.establish_connection(
+        old_config.merge(prepared_statements: false)
+      )
+      
+      # シードデータを読み込む
       load Rails.root.join('db', 'seeds.rb')
+      
+      # 元の接続設定に戻す
+      ActiveRecord::Base.establish_connection(old_config)
       
       Rails.logger.info 'Database reset and seed completed successfully!'
     rescue => e
