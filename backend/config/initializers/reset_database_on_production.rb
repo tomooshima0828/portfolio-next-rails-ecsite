@@ -14,18 +14,21 @@ if Rails.env.production? && ENV['ENABLE_DB_RESET'] == 'true'
       # データベース内の全テーブル名を取得
       tables = connection.tables
       
-      # 外部キー制約を無効化
-      connection.execute('SET CONSTRAINTS ALL DEFERRED')
-      
-      # 全テーブルのデータを削除
-      tables.each do |table|
-        next if table == 'schema_migrations' || table == 'ar_internal_metadata'
-        Rails.logger.info "Truncating table: #{table}"
-        connection.execute("TRUNCATE TABLE #{table} CASCADE")
+      # トランザクション内で外部キー制約を無効化してデータを削除
+      ActiveRecord::Base.transaction do
+        # 外部キー制約を無効化
+        connection.execute('SET CONSTRAINTS ALL DEFERRED')
+        
+        # 全テーブルのデータを削除
+        tables.each do |table|
+          next if table == 'schema_migrations' || table == 'ar_internal_metadata'
+          Rails.logger.info "Truncating table: #{table}"
+          connection.execute("TRUNCATE TABLE #{table} CASCADE")
+        end
+        
+        # 外部キー制約を再度有効化
+        connection.execute('SET CONSTRAINTS ALL IMMEDIATE')
       end
-      
-      # 外部キー制約を再度有効化
-      connection.execute('SET CONSTRAINTS ALL IMMEDIATE')
       
       # シードデータの投入
       Rails.logger.info 'Running db:seed...'
