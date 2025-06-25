@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
+import CloudinaryImage from '@/components/common/CloudinaryImage';
 import { fetchProduct, Product } from '@/lib/apiClient';
 
 export default function ProductDetail() {
@@ -140,14 +140,15 @@ export default function ProductDetail() {
             <div className="md:w-1/2">
               {product.main_image_url ? (
                 <div className="h-80 flex items-center justify-center overflow-hidden relative">
-                  <Image 
-                    src={product.main_image_url} 
-                    alt={product.name} 
-                    fill
-                    style={{ objectFit: 'cover' }}
-                    className="transition-transform duration-300 ease-in-out hover:scale-105"
-                    unoptimized // Next.jsの最適化を無効化
-                  />
+                  <div className="w-full h-full">
+                    <CloudinaryImage
+                      src={product.main_image_url}
+                      alt={product.name}
+                      width={800}
+                      height={600}
+                      className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
+                    />
+                  </div>
                 </div>
               ) : (
                 <div className="h-80 bg-gray-200 flex items-center justify-center">

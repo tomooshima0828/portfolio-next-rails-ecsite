@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import CloudinaryImage from '@/components/common/CloudinaryImage';
 import Link from 'next/link';
 import { Product } from '@/lib/apiClient';
 
@@ -36,14 +36,15 @@ const ProductCard = ({ product }: ProductCardProps) => {
       <Link href={`/products/${product.id}`}>
         <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
           {imageUrl ? (
-            <Image
-              src={imageUrl}
-              alt={product.name}
-              fill
-              style={{ objectFit: 'cover' }}
-              className="transition-transform duration-500 ease-in-out group-hover:scale-110"
-              unoptimized
-            />
+            <div className="relative w-full h-full">
+              <CloudinaryImage
+                src={imageUrl}
+                alt={product.name}
+                width={400}
+                height={300}
+                className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
+              />
+            </div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center text-gray-400">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">

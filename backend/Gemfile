@@ -35,6 +35,8 @@ gem 'rack-cors'
 # Background jobs
 gem 'sidekiq', '~> 7.2'
 
+gem 'cloudinary'
+
 group :development, :test do
   # Debugging
   gem 'pry-byebug'
