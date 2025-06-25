@@ -112,7 +112,7 @@ export default function ProductDetail() {
           <ol className="flex text-sm text-gray-500">
             <li>
               <Link href="/" className="hover:text-gray-700">
-                ホーム
+                Home
               </Link>
             </li>
             <li className="mx-2">/</li>
@@ -137,9 +137,19 @@ export default function ProductDetail() {
           <div className="md:flex">
             {/* 商品画像（左側） */}
             <div className="md:w-1/2">
-              <div className="h-80 bg-gray-200 flex items-center justify-center">
-                <span className="text-gray-500">商品画像</span>
-              </div>
+              {product.main_image_url ? (
+                <div className="h-80 flex items-center justify-center overflow-hidden">
+                  <img 
+                    src={product.main_image_url} 
+                    alt={product.name} 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="h-80 bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-500">画像がありません</span>
+                </div>
+              )}
             </div>
 
             {/* 商品情報（右側） */}
