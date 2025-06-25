@@ -4,22 +4,33 @@
 # シードデータを毎回投入するための設定です。
 # 注意: 実際の本番アプリケーションでこの設定を使用することは推奨されません。
 
-# Rakeライブラリを明示的に読み込む
-require 'rake'
-
 if Rails.env.production? && ENV['ENABLE_DB_RESET'] == 'true'
   Rails.application.config.after_initialize do
     Rails.logger.info 'Resetting database for portfolio demo purposes...'
     begin
-      # 本番環境でのデータベース操作を許可する環境変数を設定
-      ENV['DISABLE_DATABASE_ENVIRONMENT_CHECK'] = '1'
+      # データベース接続を取得
+      connection = ActiveRecord::Base.connection
       
-      # Rakeアプリケーションを読み込む
-      Rake.application.load_rakefile
+      # データベース内の全テーブル名を取得
+      tables = connection.tables
       
-      # データベースのリセットとシードデータの投入
-      Rake::Task['db:migrate:reset'].invoke
-      Rake::Task['db:seed'].invoke
+      # 外部キー制約を無効化
+      connection.execute('SET CONSTRAINTS ALL DEFERRED')
+      
+      # 全テーブルのデータを削除
+      tables.each do |table|
+        next if table == 'schema_migrations' || table == 'ar_internal_metadata'
+        Rails.logger.info "Truncating table: #{table}"
+        connection.execute("TRUNCATE TABLE #{table} CASCADE")
+      end
+      
+      # 外部キー制約を再度有効化
+      connection.execute('SET CONSTRAINTS ALL IMMEDIATE')
+      
+      # シードデータの投入
+      Rails.logger.info 'Running db:seed...'
+      load Rails.root.join('db', 'seeds.rb')
+      
       Rails.logger.info 'Database reset and seed completed successfully!'
     rescue => e
       Rails.logger.error "Database reset failed: #{e.message}"
