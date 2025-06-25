@@ -17,10 +17,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   // 在庫状況に応じたラベルとスタイル
   const stockLabel = product.stock >= 10
-    ? '在庫あり'
+    ? 'In Stock'
     : product.stock > 0
-      ? `残り${product.stock}点`
-      : '在庫切れ'
+      ? `Remaining ${product.stock}`
+      : 'Out of Stock'
 
   const stockStyle = product.stock >= 10
     ? 'bg-green-100 text-green-800'

@@ -24,19 +24,20 @@ export default function Home() {
                 E-Commerce App
                 <span className="block text-2xl text-gray-600 mt-2">Eコマースアプリ</span>
               </h1>
+              <p>Login to check your order history and purchase products.</p>
               <p>ログインすると、注文履歴の確認や商品の購入ができます。</p>
               <div className="mt-4 space-x-4">
                 <Link
                   href="/login"
                   className="inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200"
                 >
-                  ログイン
+                  Login
                 </Link>
                 <Link
                   href="/signup"
                   className="inline-flex justify-center items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-200"
                 >
-                  新規登録
+                  Sign Up
                 </Link>
               </div>
             </div>
@@ -45,7 +46,7 @@ export default function Home() {
 
         {/* 商品一覧セクション */}
         <div className="mt-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">商品一覧</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Product List</h2>
           <ProductList />
         </div>
       </div>

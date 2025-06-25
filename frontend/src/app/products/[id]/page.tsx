@@ -53,17 +53,17 @@ export default function ProductDetail() {
   const getStockInfo = (stock: number) => {
     if (stock >= 10) {
       return {
-        label: '在庫あり',
+        label: 'In Stock',
         style: 'bg-green-100 text-green-800',
       };
     } else if (stock > 0) {
       return {
-        label: `残り${stock}点`,
+        label: `Remaining ${stock}`,
         style: 'bg-yellow-100 text-yellow-800',
       };
     } else {
       return {
-        label: '在庫切れ',
+        label: 'Out of Stock',
         style: 'bg-red-100 text-red-800',
       };
     }
@@ -166,7 +166,7 @@ export default function ProductDetail() {
               </div>
 
               <div className="mb-8">
-                <h2 className="text-lg font-medium text-gray-900 mb-2">商品説明</h2>
+                <h2 className="text-lg font-medium text-gray-900 mb-2">Description</h2>
                 <p className="text-gray-700 whitespace-pre-line">{product.description}</p>
               </div>
 
@@ -178,13 +178,13 @@ export default function ProductDetail() {
                       ? 'bg-indigo-600 hover:bg-indigo-700' 
                       : 'bg-gray-400 cursor-not-allowed'}`}
                 >
-                  カートに追加
+                  Add to Cart
                 </button>
                 <Link
                   href="/"
                   className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
-                  戻る
+                  Back
                 </Link>
               </div>
             </div>

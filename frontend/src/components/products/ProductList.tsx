@@ -119,7 +119,7 @@ const ProductList = () => {
               ? 'bg-indigo-100 text-indigo-800' 
               : 'bg-gray-100 text-gray-800 hover:bg-gray-200'}`}
         >
-          すべて
+          All
         </button>
         
         {categories.map((category) => (
@@ -138,7 +138,7 @@ const ProductList = () => {
 
       {/* 商品数表示 */}
       <div className="text-sm text-gray-500">
-        {totalCount}件の商品が見つかりました
+        {totalCount} products found
         {selectedCategory !== undefined && categories.find(c => c.id === selectedCategory) && 
           ` (カテゴリ: ${categories.find(c => c.id === selectedCategory)?.name})`}
       </div>

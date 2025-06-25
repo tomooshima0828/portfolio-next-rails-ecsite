@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'open-uri'
+
 # ユーザーデータ
 if User.count == 0
   User.create!(
@@ -15,11 +17,11 @@ end
 # カテゴリデータ
 if Category.count == 0
   categories = [
-    { name: '電子機器', description: '最新のガジェットやテクノロジー製品' },
-    { name: '衣類', description: 'トレンドの洋服やアクセサリー' },
-    { name: '本・雑誌', description: '書籍、雑誌、電子書籍' },
-    { name: 'ホーム・キッチン', description: '家庭用品やキッチン用品' },
-    { name: 'スポーツ・アウトドア', description: 'スポーツ用品やアウトドア用品' }
+    { name: 'Electronics', description: 'Latest gadgets and technology products' },
+    { name: 'Clothing', description: 'Trendy clothes and accessories' },
+    { name: 'Books', description: 'Books, magazines, and e-books' },
+    { name: 'Home & Kitchen', description: 'Household and kitchen items' },
+    { name: 'Sports & Outdoors', description: 'Sports equipment and outdoor gear' }
   ]
 
   categories.each do |category_attrs|
@@ -29,100 +31,208 @@ end
 
 # 商品データ
 if Product.count == 0
-  electronics = Category.find_by(name: '電子機器')
-  clothing = Category.find_by(name: '衣類')
-  books = Category.find_by(name: '本・雑誌')
-  home = Category.find_by(name: 'ホーム・キッチン')
-  sports = Category.find_by(name: 'スポーツ・アウトドア')
+  electronics = Category.find_by(name: 'Electronics')
+  clothing = Category.find_by(name: 'Clothing')
+  books = Category.find_by(name: 'Books')
+  home = Category.find_by(name: 'Home & Kitchen')
+  sports = Category.find_by(name: 'Sports & Outdoors')
 
   products = [
     {
-      name: 'スマートフォン XYZ',
-      description: '最新のスマートフォン。高性能カメラと長時間バッテリー搭載。',
+      name: 'Smartphone XYZ',
+      description: 'Latest smartphone with high-performance camera and long-lasting battery.',
       price: 89800,
       stock: 50,
-      category: electronics
+      category: electronics,
+      image_keyword: 'smartphone'
     },
     {
-      name: 'ノートパソコン ABC',
-      description: '軽量で持ち運びに便利なノートパソコン。高速プロセッサー搭載。',
+      name: 'Laptop ABC',
+      description: 'Lightweight and portable laptop with high-speed processor.',
       price: 128000,
       stock: 7,
-      category: electronics
+      category: electronics,
+      image_keyword: 'laptop'
     },
     {
-      name: 'ワイヤレスイヤホン',
-      description: 'ノイズキャンセリング機能付きのワイヤレスイヤホン。',
+      name: 'Wireless Earphones',
+      description: 'Wireless earphones with noise cancellation feature.',
       price: 19800,
       stock: 3,
-      category: electronics
+      category: electronics,
+      image_keyword: 'wireless+earphones'
     },
     {
-      name: 'メンズTシャツ',
-      description: '快適な着心地のコットン100%Tシャツ。',
+      name: 'Men\'s T-shirt',
+      description: 'Comfortable 100% cotton T-shirt.',
       price: 2980,
       stock: 0,
-      category: clothing
+      category: clothing,
+      image_keyword: 'mens+tshirt'
     },
     {
-      name: 'レディースジーンズ',
-      description: 'スタイリッシュなデザインのストレッチジーンズ。',
+      name: 'Women\'s Jeans',
+      description: 'Stylish design stretch jeans.',
       price: 5980,
       stock: 0,
-      category: clothing
+      category: clothing,
+      image_keyword: 'womens+jeans'
     },
     {
-      name: 'プログラミング入門書',
-      description: '初心者向けのプログラミング学習書。',
+      name: 'Programming for Beginners',
+      description: 'Introductory programming learning book for beginners.',
       price: 2800,
       stock: 5,
-      category: books
+      category: books,
+      image_keyword: 'programming+book'
     },
     {
-      name: 'ビジネス戦略の本',
-      description: '成功するビジネス戦略について解説した書籍。',
+      name: 'Business Strategy Guide',
+      description: 'Book explaining successful business strategies.',
       price: 1800,
       stock: 7,
-      category: books
+      category: books,
+      image_keyword: 'business+book'
     },
     {
-      name: '電気ケトル',
-      description: '素早くお湯を沸かせる電気ケトル。',
+      name: 'Electric Kettle',
+      description: 'Fast-boiling electric kettle.',
       price: 3980,
       stock: 10,
-      category: home
+      category: home,
+      image_keyword: 'electric+kettle'
     },
     {
-      name: '調理器具セット',
-      description: '料理に必要な基本的な調理器具のセット。',
+      name: 'Cooking Utensils Set',
+      description: 'Set of essential cooking utensils for your kitchen.',
       price: 12800,
       stock: 11,
-      category: home
+      category: home,
+      image_keyword: 'cooking+utensils'
     },
     {
-      name: 'ヨガマット',
-      description: '滑りにくく快適なヨガマット。',
+      name: 'Yoga Mat',
+      description: 'Non-slip comfortable yoga mat.',
       price: 3500,
       stock: 5,
-      category: sports
+      category: sports,
+      image_keyword: 'yoga+mat'
     },
     {
-      name: 'ランニングシューズ',
-      description: 'クッション性に優れたランニングシューズ。',
+      name: 'Running Shoes',
+      description: 'Running shoes with excellent cushioning.',
       price: 8900,
       stock: 0,
-      category: sports
+      category: sports,
+      image_keyword: 'running+shoes'
     },
     {
-      name: 'スマートウォッチ',
-      description: '健康管理機能付きのスマートウォッチ。',
+      name: 'Smartwatch',
+      description: 'Smartwatch with health monitoring features.',
       price: 24800,
       stock: 0,
-      category: electronics
+      category: electronics,
+      image_keyword: 'smartwatch'
     }
   ]
 
   products.each do |product_attrs|
-    Product.create!(product_attrs)
+    # image_keywordを取り出して、product_attrsから削除
+    image_keyword = product_attrs.delete(:image_keyword)
+    
+    # 商品を作成
+    product = Product.create!(product_attrs)
+    
+    # 画像をアタッチ
+    max_attempts = 5
+    attempts = 0
+    success = false
+
+    while !success && attempts < max_attempts
+      begin
+        attempts += 1
+        
+        # 画像の取得方法を選択
+        # 方法１：確実に存在する画像を使用
+        safe_ids = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200]
+        image_id = safe_ids.sample
+        
+        # 商品のカテゴリに基づいて画像を選択
+        category_name = product.category.name
+        
+        case category_name
+        when 'Electronics'
+          image_url = "https://picsum.photos/id/#{image_id}/800/600"
+        when 'Clothing'
+          image_url = "https://picsum.photos/id/#{image_id + 1}/800/600"
+        when 'Books'
+          image_url = "https://picsum.photos/id/#{image_id + 2}/800/600"
+        when 'Home & Kitchen'
+          image_url = "https://picsum.photos/id/#{image_id + 3}/800/600"
+        when 'Sports & Outdoors'
+          image_url = "https://picsum.photos/id/#{image_id + 4}/800/600"
+        else
+          image_url = "https://picsum.photos/id/#{image_id}/800/600"
+        end
+        
+        # 画像をダウンロードしてアタッチ
+        file = URI.open(image_url)
+        
+        # ファイル名を確実に設定し、統一感を持たせる
+        # カテゴリ名のマッピング
+        category_mapping = {
+          'Electronics' => 'electronics',
+          'Clothing' => 'clothing',
+          'Books' => 'books',
+          'Home & Kitchen' => 'home-kitchen',
+          'Sports & Outdoors' => 'sports-outdoor'
+        }
+        
+        # カテゴリ名をスラッグ化
+        category_name = product.category.name
+        category_slug = category_mapping[category_name] || category_name.parameterize
+        
+        # 商品名から商品タイプを抽出
+        product_name = product.name
+        product_type = case product_name
+          when /Smartphone/ then 'smartphone'
+          when /Laptop/ then 'laptop'
+          when /Earphones/ then 'earphones'
+          when /T-shirt/ then 'tshirt'
+          when /Jeans/ then 'jeans'
+          when /Programming/ then 'programming-book'
+          when /Business/ then 'business-book'
+          when /Kettle/ then 'kettle'
+          when /Cooking/ then 'cooking-utensils'
+          when /Yoga/ then 'yoga-mat'
+          when /Running/ then 'running-shoes'
+          when /Smartwatch/ then 'smartwatch'
+          else product_name.parameterize.presence || 'item'
+        end
+        
+        # 商品IDを使用してユニークなファイル名を生成
+        product_slug = "#{category_slug}-#{product_type}-#{product.id}"
+        
+        safe_filename = "#{product_slug}.jpg"
+        
+        product.main_image.attach(
+          io: file,
+          filename: safe_filename,
+          content_type: 'image/jpeg'
+        )
+        
+        puts "An image has been created: #{product.name} (#{attempts} time attempt)"
+        success = true
+      rescue OpenURI::HTTPError => e
+        if attempts < max_attempts
+          puts "Failed to create an image: #{product.name}, error: #{e.message}"
+        else
+          puts "Failed to create an image: #{product.name}, error: #{e.message}"
+        end
+      rescue => e
+        puts "Failed to create an image: #{product.name}, error: #{e.message}"
+        break
+      end
+    end
   end
 end
