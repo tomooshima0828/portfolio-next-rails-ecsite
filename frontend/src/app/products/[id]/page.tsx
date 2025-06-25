@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { fetchProduct, Product } from '@/lib/apiClient';
 
 export default function ProductDetail() {
@@ -138,11 +139,14 @@ export default function ProductDetail() {
             {/* 商品画像（左側） */}
             <div className="md:w-1/2">
               {product.main_image_url ? (
-                <div className="h-80 flex items-center justify-center overflow-hidden">
-                  <img 
+                <div className="h-80 flex items-center justify-center overflow-hidden relative">
+                  <Image 
                     src={product.main_image_url} 
                     alt={product.name} 
-                    className="w-full h-full object-cover"
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    className="transition-transform duration-300 ease-in-out hover:scale-105"
+                    unoptimized // Next.jsの最適化を無効化
                   />
                 </div>
               ) : (

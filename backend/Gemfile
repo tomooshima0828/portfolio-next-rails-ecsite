@@ -68,8 +68,8 @@ group :development do
   gem 'bundler-audit', require: false
 
   # Performance monitoring
-  gem 'flamegraph'
-  gem 'memory_profiler'
+  # gem 'flamegraph' # 削除: Docker環境での問題を回避
+  # gem 'memory_profiler' # 削除: Docker環境での問題を回避
   gem 'rack-mini-profiler', '~> 3.2'
 
   # API documentation
