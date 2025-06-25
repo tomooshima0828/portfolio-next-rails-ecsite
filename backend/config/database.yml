@@ -27,6 +27,7 @@ production:
   username: <%= ENV['POSTGRES_USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   sslmode: require
+  prepared_statements: false
 
   # The password associated with the PostgreSQL role (username).
   #password:
