@@ -130,8 +130,40 @@ This issue is to implement the product display features for the EC site. This in
 - Active Storageのローカルディスクサービス (`:local`) を使用します。アップロードされたファイルは `storage/` ディレクトリに保存されます。
 
 ### Production Environment / 本番環境
-- Use **Supabase Storage** via Active Storage. This aligns the tech stack since the database is already on Supabase.
-- Active Storageを通じて **Supabase Storage** を使用します。これにより、データベースにSupabaseを利用している既存の技術スタックと統一します。
+- Use **Cloudinary** via Active Storage. This provides a reliable and scalable solution for image storage and delivery in production.
+- Active Storageを通じて **Cloudinary** を使用します。これにより、本番環境での画像ストレージと配信に信頼性が高くスケーラブルなソリューションを提供します。
+
+#### Cloudinary Integration / Cloudinaryの導入
+
+##### Backend Configuration / バックエンド設定
+
+- Added the `cloudinary` gem to the Gemfile.
+- Gemfileに`cloudinary` gemを追加しました。
+- Configured Active Storage to use Cloudinary in production environment (`config/storage.yml` and `config/environments/production.rb`).
+- 本番環境でActive StorageがCloudinaryを使用するように設定しました（`config/storage.yml`と`config/environments/production.rb`）。
+- Set environment variables for Cloudinary credentials in Render:
+- Renderで以下のCloudinary認証情報の環境変数を設定しました：
+  - `CLOUDINARY_CLOUD_NAME`
+  - `CLOUDINARY_API_KEY`
+  - `CLOUDINARY_API_SECRET`
+- Configured URL generation for Active Storage in production:
+- 本番環境でのActive StorageのURL生成を設定しました：
+  ```ruby
+  config.active_storage.default_url_options = { host: ENV['RENDER_EXTERNAL_HOSTNAME'] || 'portfolio-next-rails-ecsite.onrender.com' }
+  Rails.application.routes.default_url_options = { host: ENV['RENDER_EXTERNAL_HOSTNAME'] || 'portfolio-next-rails-ecsite.onrender.com', protocol: 'https' }
+  ```
+
+##### Frontend Integration / フロントエンド連携
+
+- Installed the `next-cloudinary` package for optimized image rendering.
+- 最適化された画像レンダリングのために`next-cloudinary`パッケージをインストールしました。
+- Created a reusable `CloudinaryImage` component that detects Cloudinary URLs and applies optimizations.
+- CloudinaryのURLを検出して最適化を適用する再利用可能な`CloudinaryImage`コンポーネントを作成しました。
+- Updated product list and detail pages to use the `CloudinaryImage` component instead of Next.js `Image` component.
+- 商品一覧と詳細ページを更新し、Next.jsの`Image`コンポーネントの代わりに`CloudinaryImage`コンポーネントを使用するようにしました。
+- Set the Cloudinary cloud name in frontend environment variables:
+- フロントエンドの環境変数にCloudinaryのクラウド名を設定しました：
+  - `NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME`
 
 ## 6. Notes / 備考
 - For MVP, advanced search functionality (U-007) is out of scope for this issue but will be considered for future implementation.
@@ -144,6 +176,139 @@ This issue is to implement the product display features for the EC site. This in
 During the implementation of product display features, it became necessary to add product registration functionality to verify the display. This led to the following additional implementations.
 
 商品表示機能の実装過程で、表示を確認するための商品登録機能が必要となりました。それに伴い、以下の追加実装を行いました。
+
+### 7.0. Production Environment Optimizations / 本番環境の最適化
+
+本番環境でのデプロイと安定的な運用のために、以下の最適化を行いました。
+
+#### PostgreSQL接続の最適化
+
+Renderの無料プランではPostgreSQL接続に制限があり、以下の問題が発生しました：
+
+- `PG::DuplicatePstatement`: プリペアドステートメントが重複するエラー
+- `ActiveModel::MissingAttributeError`: ActiveStorageのブロブテーブルでの属性欠落エラー
+
+##### Prepared Statementとは
+
+Prepared Statement（プリペアドステートメント）は、SQLクエリのテンプレートのようなものです。通常のSQLクエリでは毎回完全なSQLを実行しますが、Prepared Statementでは一度テンプレートを準備（prepare）し、その後は変数の値だけを変えて何度も実行できます。
+
+例えば：
+
+**通常のSQLクエリ**:
+```sql
+SELECT * FROM products WHERE id = 1;
+SELECT * FROM products WHERE id = 2;
+```
+
+**Prepared Statementの場合**:
+```sql
+-- テンプレートを準備
+PREPARE product_query AS SELECT * FROM products WHERE id = $1;
+
+-- 値を変えて実行
+EXECUTE product_query(1);
+EXECUTE product_query(2);
+```
+
+これは本来、パフォーマンス向上のための機能ですが、Renderの無料プランでは逆に問題を引き起こしていました。
+
+##### 発生していた問題の詳細
+
+1. **`PG::DuplicatePstatement`エラー**:
+   - 同じ名前のPrepared Statementが重複して作成されようとした
+   - 原因: アプリケーションの再起動やコネクションプールの問題で、古いPrepared Statementが残ったまま
+
+2. **接続リソースの枯渇**:
+   - Prepared Statementがメモリを消費し、限られたリソースを圧迫
+   - 結果として新しい接続が作れなくなる
+
+3. **ActiveStorageの問題**:
+   - データベースのスキーマと実際のテーブル構造の不一致
+   - 接続問題によりマイグレーションが正しく適用されていない
+
+これらの問題を解決するために、以下の対策を実装しました：
+
+1. **PostgreSQL接続設定の最適化** (`config/database.yml`):
+   ```yaml
+   production:
+     prepared_statements: false  # Prepared Statementを完全に無効化
+     statement_limit: 0          # Prepared Statementの数を0に制限
+     advisory_locks: false       # アドバイザリロックも無効化して負荷軽減
+     
+     # 接続プール設定
+     pool: 3                     # 同時接続数を少なく保つ
+     connect_timeout: 30         # 接続タイムアウトを設定
+     idle_timeout: 60            # アイドル接続を早めに切断
+     reconnect: true             # 接続が切れた場合に自動再接続
+   ```
+
+2. **プリペアドステートメントの無効化** (`config/initializers/fix_postgresql_connection.rb`):
+   
+   ```ruby
+   # PostgreSQL接続の問題を解決するための包括的な対策
+   if Rails.env.production?
+     # PostgreSQLアダプタを修正
+     if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
+       module PostgreSQLPreparedStatementsFix
+         # Prepared Statementを作成せず、通常のSQLとして扱う
+         def prepare_statement(sql, binds)
+           sql  # そのままSqlを返す（Prepared Statementにしない）
+         end
+         
+         # キャッシュを使わずに直接クエリを実行
+         def exec_no_cache(sql, name, binds)
+           log(sql, name, binds) do
+             with_raw_connection do |conn|
+               result = conn.async_exec(sql)
+               ActiveRecord::Result.new(result.fields, result.values)
+             end
+           end
+         end
+         
+         # トランザクション終了時に自動的にキャッシュをクリア
+         def commit_db_transaction
+           super
+         ensure
+           clear_cache!
+         end
+       end
+
+       # モンキーパッチを適用(モンキーパッチとは、既存のコード（この場合はRailsのPostgreSQLアダプタ）の動作を、外部から変更する技術)
+       ActiveSupport.on_load(:active_record) do
+         ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(PostgreSQLPreparedStatementsFix)
+       end
+     end
+     
+     # アプリケーション起動時に実行
+     Rails.application.config.after_initialize do
+       # 既存のプリペアドステートメントをクリア
+       begin
+         ActiveRecord::Base.connection.execute("DEALLOCATE ALL")
+         Rails.logger.info "Successfully deallocated all prepared statements on startup"
+       rescue => e
+         Rails.logger.error "Failed to deallocate prepared statements: #{e.message}"
+       end
+     end
+   end
+   ```
+
+これらの対策により、Renderの無料プランでのデータベース接続の安定性が向上し、アプリケーションが正常に動作するようになりました。
+
+##### 実装のポイントと効果
+
+1. **根本原因への対処**:
+   - Prepared Statementを完全に無効化することで、根本的な問題を解決
+   - 単に設定を変えるだけでなく、Railsの内部動作もモンキーパッチで変更
+
+2. **リソース使用の最適化**:
+   - 接続数を制限し、不要な接続をすぐに解放
+   - メモリ使用量を削減
+
+3. **クリーンな状態の維持**:
+   - アプリケーション起動時に古いPrepared Statementをクリア
+   - トランザクション終了時にもキャッシュをクリア
+
+これらの対策により、Renderの無料プランという制限された環境でも、安定したデータベース接続を実現できました。結果として、アプリケーションは正常に動作し、商品画像のCloudinary経由での表示やユーザー認証機能が正常に機能するようになりました。
 
 ### 7.1. Admin Role and Product Registration / 管理者権限と商品登録機能
 
