@@ -29,6 +29,12 @@ production:
   sslmode: require
   prepared_statements: false
 
+  pool: 5
+  connect_timeout: 30
+  checkout_timeout: 5
+  idle_timeout: 180
+  reaping_frequency: 10
+
   # The password associated with the PostgreSQL role (username).
   #password:
 
