@@ -44,28 +44,40 @@ export const apiClient = async <T>(
   };
 
   if (body) {
-    config.body = JSON.stringify(body);
+    if (body instanceof FormData) {
+      // FormDataの場合はJSON.stringifyしない
+      config.body = body;
+      // Content-Typeヘッダを削除してブラウザに自動設定させる
+      delete (config.headers as Record<string, string>)['Content-Type'];
+    } else {
+      config.body = JSON.stringify(body);
+    }
   }
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    
+
     if (!response.ok) {
       let errorMessage = `HTTP error! status: ${response.status}`;
       try {
-        const errorData = await response.json(); // まずJSONとしてパースを試みる
-        errorMessage = errorData.message || errorData.error || JSON.stringify(errorData);
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      } catch (_e) {
-        // JSONでなければテキストとして取得
+        const errorData = await response.json();
+        // Rails APIからの構造化されたエラーレスポンスを適切に処理
+        errorMessage =
+          errorData?.status?.message || // { status: { message: '...' } } 形式
+          errorData.message || // { message: '...' } 形式
+          errorData.error || // { error: '...' } 形式
+          JSON.stringify(errorData); // 上記以外の場合は全体を文字列化
+      } catch {
+        // JSONのパースに失敗した場合、レスポンスボディをテキストとして取得しようと試みる
         try {
           const textError = await response.text();
           if (textError) {
             errorMessage = textError;
           }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (_textFetchError) {
-          // テキスト取得も失敗した場合は何もしない (初期のerrorMessageを使用)
+          // テキストボディが空の場合は、初期のHTTPステータスエラーメッセージが使われる
+        } catch (textError) {
+          // テキストの読み取りにも失敗した場合は、初期のエラーメッセージが最終的に使用される
+          console.error('Failed to parse error response as JSON or text.', textError);
         }
       }
       throw new Error(errorMessage);
@@ -90,6 +102,7 @@ export type User = {
   email: string;
   address: string;
   phone: string;
+  role: 'admin' | 'general'; // ユーザーの役割を追加
 };
 
 export type AuthResponse = {
@@ -145,4 +158,65 @@ export const getCurrentUser = async (): Promise<AuthResponse> => {
 // 使用例
 export const fetchHello = async (): Promise<{ message: string }> => {
   return apiClient<{ message: string }>('/hello');
+};
+
+// 商品関連の型定義
+export type Category = {
+  id: number;
+  name: string;
+  description: string;
+};
+
+export type Product = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  category_id: number;
+  category?: Category;
+  main_image_url?: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ProductsResponse = {
+  products: Product[];
+  meta: {
+    current_page: number;
+    total_pages: number;
+    total_count: number;
+  };
+};
+
+// 商品一覧を取得
+export const fetchProducts = async (page = 1, perPage = 10, categoryId?: number): Promise<ProductsResponse> => {
+  let endpoint = `/products?page=${page}&per_page=${perPage}`;
+  if (categoryId) {
+    endpoint += `&category_id=${categoryId}`;
+  }
+  return apiClient<ProductsResponse>(endpoint);
+};
+
+// 商品詳細を取得
+export const fetchProduct = async (id: number): Promise<Product> => {
+  return apiClient<Product>(`/products/${id}`);
+};
+
+// 商品を新規作成（画像アップロード対応）
+export const createProduct = async (formData: FormData): Promise<Product> => {
+  // ファイルを送信するため、Content-TypeはapiClient内で設定せず、
+  // ブラウザに自動で設定させる（multipart/form-dataになる）
+  return apiClient<Product>('/products', {
+    method: 'POST',
+    body: formData as unknown as Record<string, unknown>, // 型キャストが必要
+    headers: {
+      // 'Content-Type': 'multipart/form-data' はブラウザが自動で設定するので不要
+    },
+  });
+};
+
+// カテゴリ一覧を取得
+export const fetchCategories = async (): Promise<Category[]> => {
+  return apiClient<Category[]>('/categories');
 };

@@ -3,6 +3,7 @@
 module Api
   module V1
     class SessionsController < Api::V1::BaseController
+      # ログインしていない場合は認証エラーを返す
       before_action :authenticate_user!, only: %i[destroy show]
 
       # 現在のユーザー情報を取得

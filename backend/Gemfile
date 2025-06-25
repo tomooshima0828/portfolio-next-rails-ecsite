@@ -71,7 +71,6 @@ group :development do
   gem 'flamegraph'
   gem 'memory_profiler'
   gem 'rack-mini-profiler', '~> 3.2'
-  gem 'stackprof'
 
   # API documentation
   gem 'rswag-specs'
@@ -79,6 +78,11 @@ group :development do
   # Debugging
   gem 'listen', '~> 3.8'
   gem 'web-console', '>= 4.2.0'
+end
+
+group :production do
+  gem 'activestorage-cloudinary-service'
+  gem 'cloudinary'
 end
 
 group :test do

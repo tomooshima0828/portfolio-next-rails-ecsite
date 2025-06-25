@@ -56,3 +56,6 @@
 .idea/
 *.iml
 .idea_modules/
+
+# Ignore ActiveStorage local files
+/storage/
