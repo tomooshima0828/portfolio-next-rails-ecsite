@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   # 関連付け
   has_many :cart_items, dependent: :destroy
+  has_many :orders, dependent: :destroy
 
   # バリデーション
   validates :name, presence: true
