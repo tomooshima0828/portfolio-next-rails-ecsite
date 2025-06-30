@@ -49,6 +49,7 @@
 | total_price | integer | 合計金額 |
 | status | integer | 注文ステータス (例: 0:入金待ち, 1:発送準備中, 2:発送済み) |
 | shipping_address | string | 配送先住所 |
+| stripe_payment_intent_id | string | Stripe決済ID |
 | created_at | datetime | 作成日時 |
 | updated_at | datetime | 更新日時 |
 
