@@ -13,7 +13,7 @@ class Api::V1::PaymentIntentsController < ApplicationController
 
       # Create PaymentIntent with Stripe
       payment_intent = Stripe::PaymentIntent.create(
-        amount: (total_amount * 100).to_i, # Convert to cents
+        amount: total_amount.to_i,
         currency: 'jpy',
         automatic_payment_methods: {
           enabled: true

@@ -70,7 +70,7 @@ class Api::V1::WebhooksController < ApplicationController
   end
 
   def create_order_from_cart(user, stripe_payment_intent_id, payment_intent)
-    total_amount = payment_intent['amount'] / 100.0 # Convert from cents
+    total_amount = payment_intent['amount'].to_f
     
     Order.create(
       user: user,
