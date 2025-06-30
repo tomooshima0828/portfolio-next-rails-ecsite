@@ -22,6 +22,12 @@ Rails.application.routes.draw do
 
       # カート関連のAPIエンドポイント
       resources :cart_items, only: %i[index show create update destroy]
+
+      # 決済関連のAPIエンドポイント
+      resources :payment_intents, only: [:create]
+      
+      # Webhook関連のAPIエンドポイント
+      post 'webhooks/stripe', to: 'webhooks#stripe'
     end
   end
 
