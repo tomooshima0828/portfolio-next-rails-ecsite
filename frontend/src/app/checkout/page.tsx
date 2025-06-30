@@ -2,22 +2,23 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '@/components/AuthProvider'
-import { useCart } from '@/hooks/useCart'
+import { useAuth } from '@/contexts/AuthContext'
+import { useSelector, useDispatch } from 'react-redux'
+import { RootState } from '@/store/store'
+import { clearCart } from '@/features/cart/cartSlice'
 import StripeProvider from '@/components/StripeProvider'
 import CheckoutForm from '@/components/CheckoutForm'
-import LoadingSpinner from '@/components/LoadingSpinner'
 import axios from 'axios'
 
 export default function CheckoutPage() {
-  const { user, loading: authLoading } = useAuth()
-  const { cartItems, loading: cartLoading } = useCart()
+  const { user, isLoading: authLoading } = useAuth()
+  const dispatch = useDispatch()
+  const cartItems = useSelector((state: RootState) => state.cart.items)
+  const totalAmount = useSelector((state: RootState) => state.cart.total)
   const router = useRouter()
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [paymentLoading, setPaymentLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-
-  const totalAmount = cartItems.reduce((sum, item) => sum + (item.product.price * item.quantity), 0)
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -29,16 +30,16 @@ export default function CheckoutPage() {
     if (user && cartItems.length > 0 && totalAmount > 0) {
       createPaymentIntent()
     }
-  }, [user, cartItems, totalAmount])
+  }, [user, cartItems.length, totalAmount])
 
   const createPaymentIntent = async () => {
     setPaymentLoading(true)
     setError(null)
 
     try {
-      const token = localStorage.getItem('token')
+      const token = localStorage.getItem('auth_token')
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/payment_intents`,
+        'http://localhost:3001/api/v1/payment_intents',
         {},
         {
           headers: {
@@ -58,15 +59,20 @@ export default function CheckoutPage() {
   }
 
   const handlePaymentSuccess = () => {
-    // Payment successful, will redirect to success page
+    // Clear cart after successful payment
+    dispatch(clearCart())
   }
 
   const handlePaymentError = (errorMessage: string) => {
     setError(errorMessage)
   }
 
-  if (authLoading || cartLoading) {
-    return <LoadingSpinner />
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
+      </div>
+    )
   }
 
   if (!user) {
@@ -130,7 +136,7 @@ export default function CheckoutPage() {
 
         {paymentLoading ? (
           <div className="bg-white shadow-lg rounded-lg p-6 text-center">
-            <LoadingSpinner />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
             <p className="mt-4 text-gray-600">Initializing payment...</p>
           </div>
         ) : clientSecret ? (

@@ -3,10 +3,14 @@ class Api::V1::PaymentIntentsController < ApplicationController
 
   def create
     begin
+      Rails.logger.info "PaymentIntent create - User: #{current_user&.id}"
+      
       # Calculate total amount from user's cart
       total_amount = calculate_cart_total
+      Rails.logger.info "PaymentIntent create - Total amount: #{total_amount}"
       
       if total_amount <= 0
+        Rails.logger.warn "PaymentIntent create - Empty cart for user #{current_user&.id}"
         render json: { error: 'Cart is empty or invalid' }, status: :bad_request
         return
       end
@@ -24,6 +28,8 @@ class Api::V1::PaymentIntentsController < ApplicationController
         }
       )
 
+      Rails.logger.info "PaymentIntent created successfully: #{payment_intent.id}"
+      
       render json: {
         client_secret: payment_intent.client_secret,
         amount: total_amount,
@@ -32,9 +38,11 @@ class Api::V1::PaymentIntentsController < ApplicationController
 
     rescue Stripe::StripeError => e
       Rails.logger.error "Stripe error: #{e.message}"
+      Rails.logger.error "Stripe error details: #{e.backtrace.first(10)}"
       render json: { error: 'Payment processing error' }, status: :unprocessable_entity
     rescue StandardError => e
       Rails.logger.error "Payment intent error: #{e.message}"
+      Rails.logger.error "Error details: #{e.backtrace.first(10)}"
       render json: { error: 'Internal server error' }, status: :internal_server_error
     end
   end

@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useAuth } from '@/components/AuthProvider'
+import { useAuth } from '@/contexts/AuthContext'
 import Link from 'next/link'
 
 export default function CheckoutSuccessPage() {
-  const { user, loading } = useAuth()
+  const { user, isLoading } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
   const [paymentStatus, setPaymentStatus] = useState<'loading' | 'success' | 'error'>('loading')
@@ -15,7 +15,7 @@ export default function CheckoutSuccessPage() {
   const redirectStatus = searchParams.get('redirect_status')
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (!isLoading && !user) {
       router.push('/login')
       return
     }
@@ -30,9 +30,9 @@ export default function CheckoutSuccessPage() {
     } else {
       setPaymentStatus('error')
     }
-  }, [user, loading, router, redirectStatus])
+  }, [user, isLoading, router, redirectStatus])
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
