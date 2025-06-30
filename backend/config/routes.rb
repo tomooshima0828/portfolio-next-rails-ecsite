@@ -19,6 +19,9 @@ Rails.application.routes.draw do
 
       # カテゴリ関連のAPIエンドポイント
       resources :categories, only: [:index]
+
+      # カート関連のAPIエンドポイント
+      resources :cart_items, only: %i[index show create update destroy]
     end
   end
 

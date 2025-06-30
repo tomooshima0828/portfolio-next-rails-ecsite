@@ -168,6 +168,7 @@ GEM
       net-http (>= 0.5.0)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x86_64-linux-gnu)
     globalid (1.2.1)
       activesupport (>= 6.1)
     hashdiff (1.2.0)
@@ -242,6 +243,8 @@ GEM
     nokogiri (1.18.8-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.8-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     ostruct (0.6.2)
@@ -458,6 +461,7 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin-22
+  x86_64-linux
 
 DEPENDENCIES
   activestorage-cloudinary-service
@@ -490,6 +494,8 @@ DEPENDENCIES
   rswag-specs
   rswag-ui
   rubocop (~> 1.56)
+  rubocop-capybara (~> 2.22)
+  rubocop-factory_bot (~> 2.27)
   rubocop-rails (~> 2.20)
   rubocop-rspec (~> 2.23)
   shoulda-matchers (~> 5.3)

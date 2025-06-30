@@ -13,6 +13,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable, :trackable,
          :jwt_authenticatable, jwt_revocation_strategy: self
 
+  # 関連付け
+  has_many :cart_items, dependent: :destroy
+
   # バリデーション
   validates :name, presence: true
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -29,5 +32,14 @@ class User < ApplicationRecord
       'iat' => Time.now.to_i, # 'iat' (Issued At) issue time トークンが発行された時刻
       'role' => role # ユーザーの役割を追加
     }
+  end
+
+  # カート関連のメソッド
+  def cart_total
+    cart_items.sum(&:subtotal)
+  end
+
+  def cart_items_count
+    cart_items.sum(:quantity)
   end
 end

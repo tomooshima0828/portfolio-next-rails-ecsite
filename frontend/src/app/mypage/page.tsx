@@ -73,39 +73,56 @@ const MyPage = () => {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-2xl bg-white rounded-lg shadow-md p-8">
-        <h1 className="text-2xl font-bold text-center text-gray-800">My Page</h1>
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-6">マイページ</h1>
+        <h1 className="text-2xl font-bold text-center text-gray-800">My Page マイページ</h1>
 
         {localUser && (
           <div className="mt-6">
             <div className="bg-gray-50 p-6 rounded-lg mb-6">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">User Information / ユーザー情報</h2>
-              <div className="space-y-3">
-                <p className="text-gray-700">
-                  <span className="font-medium">Name / 氏名:</span> {localUser.name}
-                </p>
-                <p className="text-gray-700">
-                  <span className="font-medium">Email / メールアドレス:</span> {localUser.email}
-                </p>
-                <p className="text-gray-700">
-                  <span className="font-medium">Address / 住所:</span> {localUser.address}
-                </p>
-                <p className="text-gray-700">
-                  <span className="font-medium">Phone / 電話番号:</span> {localUser.phone}
-                </p>
+              <h2 className="text-xl font-semibold text-gray-800 mb-4">User Information ユーザー情報</h2>
+              <div className="overflow-hidden">
+                <table className="w-full">
+                  <tbody className="divide-y divide-gray-200">
+                    <tr>
+                      <td className="py-3 pr-6 text-sm font-medium text-gray-900 w-1/3">
+                        Name 氏名
+                      </td>
+                      <td className="py-3 text-sm text-gray-700">
+                        {localUser.name}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-6 text-sm font-medium text-gray-900 w-1/3">
+                        Email メールアドレス
+                      </td>
+                      <td className="py-3 text-sm text-gray-700">
+                        {localUser.email}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-6 text-sm font-medium text-gray-900 w-1/3">
+                        Address 住所
+                      </td>
+                      <td className="py-3 text-sm text-gray-700">
+                        {localUser.address}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="py-3 pr-6 text-sm font-medium text-gray-900 w-1/3">
+                        Phone 電話番号
+                      </td>
+                      <td className="py-3 text-sm text-gray-700">
+                        {localUser.phone}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
 
             <div className="flex flex-col space-y-4 mt-8">
-              <Link href="/" className="text-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Home / ホーム
+              <Link href="/" className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-center">
+                Back to Shopping ショッピングに戻る
               </Link>
-              <button
-                onClick={() => router.push('/')}
-                className="py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Back to Shopping / ショッピングに戻る
-              </button>
             </div>
           </div>
         )}

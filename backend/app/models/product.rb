@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   include Rails.application.routes.url_helpers
   belongs_to :category
   has_one_attached :main_image
+  has_many :cart_items, dependent: :destroy
 
   validates :name, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 0 }
@@ -16,7 +17,18 @@ class Product < ApplicationRecord
     # 画像がアタッチされている場合のみ、そのURLを生成して返す
     return unless main_image.attached?
 
-    # ホスト名を含む完全なURLを生成する
-    Rails.application.routes.url_helpers.url_for(main_image)
+    # ActiveStorage::Current.url_optionsを設定してからURL生成
+    begin
+      if Rails.env.development?
+        # 開発環境では明示的にホストとポートを設定
+        ActiveStorage::Current.url_options = { host: 'localhost', port: 3001, protocol: 'http' }
+      end
+
+      Rails.application.routes.url_helpers.url_for(main_image)
+    rescue StandardError => e
+      # URL生成に失敗した場合はnilを返す
+      Rails.logger.error "Failed to generate image URL: #{e.message}"
+      nil
+    end
   end
 end

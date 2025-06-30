@@ -3,6 +3,20 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import dynamic from 'next/dynamic';
+
+// CartIconをクライアントサイドでのみ読み込む
+const CartIcon = dynamic(
+  () => import('@/components/cart/CartIcon'),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="relative p-2 text-gray-600">
+        <div className="h-6 w-6"></div>
+      </div>
+    )
+  }
+);
 
 const Header = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -32,6 +46,7 @@ const Header = () => {
           </div>
 
           <div className="flex items-center space-x-4">
+            <CartIcon />
             {isAuthenticated ? (
               <>
                 <Link

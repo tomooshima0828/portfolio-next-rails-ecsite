@@ -2,13 +2,8 @@
 
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
-  
-  # 本番環境でのPrepared Statementの問題を解決するための設定
-  if Rails.env.production?
-    begin
-      self.connection.execute("DEALLOCATE ALL") rescue nil
-    rescue => e
-      Rails.logger.error "Failed to deallocate statements: #{e.message}"
-    end
-  end
+
+  # NOTE: PostgreSQL Prepared Statement対策は以下のファイルで一元管理されています:
+  # - config/database.yml で prepared_statements: false 設定
+  # - config/initializers/disable_prepared_statements.rb で起動時クリア
 end

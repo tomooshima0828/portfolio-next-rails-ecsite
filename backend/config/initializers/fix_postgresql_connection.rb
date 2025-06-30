@@ -5,18 +5,17 @@ if Rails.env.production?
   # アプリケーション起動時に実行
   Rails.application.config.after_initialize do
     # 既存のプリペアドステートメントをクリア
-    begin
-      ActiveRecord::Base.connection.execute("DEALLOCATE ALL")
-      Rails.logger.info "Successfully deallocated all prepared statements on startup"
-    rescue => e
-      Rails.logger.error "Failed to deallocate prepared statements: #{e.message}"
-    end
+
+    ActiveRecord::Base.connection.execute('DEALLOCATE ALL')
+    Rails.logger.info 'Successfully deallocated all prepared statements on startup'
+  rescue StandardError => e
+    Rails.logger.error "Failed to deallocate prepared statements: #{e.message}"
   end
 
   # PostgreSQLアダプタを修正
   if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
     module PostgreSQLPreparedStatementsFix
-      def prepare_statement(sql, binds)
+      def prepare_statement(sql, _binds)
         sql
       end
 
@@ -32,7 +31,7 @@ if Rails.env.production?
 
     # モンキーパッチを適用
     ActiveSupport.on_load(:active_record) do
-      ActiveRecord::ConnectionAdapters::PostgreSQLAdapter.prepend(PostgreSQLPreparedStatementsFix)
+      ActiveSupport.on_load(:active_record_postgresqladapter) { prepend PostgreSQLPreparedStatementsFix }
     end
   end
 
@@ -40,22 +39,22 @@ if Rails.env.production?
   ActiveSupport.on_load(:active_record) do
     # 接続設定を取得
     config = ActiveRecord::Base.connection_db_config.configuration_hash.dup
-    
+
     # Prepared Statementを無効化
     config[:prepared_statements] = false
     config[:statement_limit] = 0
-    
+
     # 接続プールを最適化
     config[:pool] = 3
     config[:idle_timeout] = 60
     config[:reconnect] = true
-    
+
     # 既存の接続を閉じて再接続
     begin
       ActiveRecord::Base.connection_pool.disconnect!
       ActiveRecord::Base.establish_connection(config)
-      Rails.logger.info "Successfully reconfigured database connection"
-    rescue => e
+      Rails.logger.info 'Successfully reconfigured database connection'
+    rescue StandardError => e
       Rails.logger.error "Failed to reconfigure database connection: #{e.message}"
     end
   end
