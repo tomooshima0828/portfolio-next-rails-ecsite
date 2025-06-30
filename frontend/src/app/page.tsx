@@ -46,7 +46,7 @@ export default function Home() {
 
         {/* 商品一覧セクション */}
         <div className="mt-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Product List</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Product List <span className="text-gray-600">商品一覧</span></h2>
           <ProductList />
         </div>
       </div>

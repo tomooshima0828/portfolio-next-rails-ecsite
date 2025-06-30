@@ -140,7 +140,7 @@ const ProductList = () => {
       <div className="text-sm text-gray-500">
         {totalCount} products found
         {selectedCategory !== undefined && categories.find(c => c.id === selectedCategory) && 
-          ` (カテゴリ: ${categories.find(c => c.id === selectedCategory)?.name})`}
+          ` (Category: ${categories.find(c => c.id === selectedCategory)?.name})`}
       </div>
 
       {/* 商品リスト */}

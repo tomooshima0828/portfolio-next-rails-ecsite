@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import CloudinaryImage from '@/components/common/CloudinaryImage';
+import AddToCartButton from '@/components/cart/AddToCartButton';
 import { fetchProduct, Product } from '@/lib/apiClient';
 
 export default function ProductDetail() {
@@ -21,7 +22,7 @@ export default function ProductDetail() {
 
       // IDが数字でない場合（例: /products/new）は、エラーとして処理
       if (isNaN(productId)) {
-        setError('商品が見つかりませんでした。');
+        setError('Product not found');
         setIsLoading(false);
         return;
       }
@@ -32,8 +33,8 @@ export default function ProductDetail() {
         setProduct(data);
         setError(null);
       } catch (err) {
-        console.error('商品データの取得に失敗しました:', err);
-        setError('商品データの取得に失敗しました。再度お試しください。');
+        console.error('Failed to fetch product data:', err);
+        setError('Failed to fetch product data. Please try again.');
       } finally {
         setIsLoading(false);
       }
@@ -59,7 +60,7 @@ export default function ProductDetail() {
       };
     } else if (stock > 0) {
       return {
-        label: `Remaining ${stock}`,
+        label: `Stock: ${stock}`,
         style: 'bg-yellow-100 text-yellow-800',
       };
     } else {
@@ -82,20 +83,20 @@ export default function ProductDetail() {
     return (
       <div className="min-h-screen flex justify-center items-center py-20">
         <div className="max-w-2xl w-full p-6 bg-red-50 rounded-lg shadow">
-          <h2 className="text-xl font-bold text-red-800 mb-4">エラーが発生しました</h2>
-          <p className="text-red-700">{error || '商品が見つかりませんでした。'}</p>
+          <h2 className="text-xl font-bold text-red-800 mb-4">Error</h2>
+          <p className="text-red-700">{error || 'Product not found'}</p>
           <div className="mt-6 flex space-x-4">
             <button
               onClick={() => window.location.reload()}
               className="px-4 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200"
             >
-              再読み込み
+              Reload
             </button>
             <Link
               href="/"
               className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200"
             >
-              ホームに戻る
+              Home
             </Link>
           </div>
         </div>
@@ -152,7 +153,7 @@ export default function ProductDetail() {
                 </div>
               ) : (
                 <div className="h-80 bg-gray-200 flex items-center justify-center">
-                  <span className="text-gray-500">画像がありません</span>
+                  <span className="text-gray-500">Image not available</span>
                 </div>
               )}
             </div>
@@ -170,7 +171,7 @@ export default function ProductDetail() {
                   <span className="text-2xl font-bold text-gray-900">
                     {formatPrice(product.price)}
                   </span>
-                  <span className="text-sm text-gray-500 ml-2">（税込）</span>
+                  <span className="text-sm text-gray-500 ml-2">(Tax included)</span>
                 </div>
               </div>
 
@@ -185,19 +186,16 @@ export default function ProductDetail() {
                 <p className="text-gray-700 whitespace-pre-line">{product.description}</p>
               </div>
 
-              <div className="flex space-x-4">
-                <button
-                  disabled={product.stock <= 0}
-                  className={`flex-1 px-6 py-3 rounded-md font-medium text-white 
-                    ${product.stock > 0 
-                      ? 'bg-indigo-600 hover:bg-indigo-700' 
-                      : 'bg-gray-400 cursor-not-allowed'}`}
-                >
-                  Add to Cart
-                </button>
+              <div className="space-y-4">
+                <AddToCartButton
+                  productId={product.id}
+                  productName={product.name}
+                  stock={product.stock}
+                  price={product.price}
+                />
                 <Link
                   href="/"
-                  className="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                  className="block w-full text-center px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
                 >
                   Back
                 </Link>

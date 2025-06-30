@@ -10,6 +10,7 @@ Thumbs.db
 # エディタ設定
 .idea/
 .vscode/
+.ruby-lsp/
 *.swp
 *~
 
@@ -37,3 +38,6 @@ Thumbs.db
 
 # Windsurf
 .windsurf/
+
+# Claude Code
+.claude/

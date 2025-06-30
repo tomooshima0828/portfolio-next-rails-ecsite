@@ -1,11 +1,15 @@
 require:
-  - rubocop-rails
   - rubocop-rspec
+
+plugins:
+  - rubocop-rails
   - rubocop-factory_bot
-  - rubocop-rspec_rails
+  - rubocop-capybara
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
+  DisplayCopNames: true
   Exclude:
     - 'db/schema.rb'
     - 'db/seeds.rb'

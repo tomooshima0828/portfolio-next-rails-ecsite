@@ -35,10 +35,14 @@ Rails.application.configure do
   config.active_storage.service = :cloudinary
 
   # Set host for URL generation in ActiveStorage
-  config.active_storage.default_url_options = { host: ENV['RENDER_EXTERNAL_HOSTNAME'] || 'portfolio-next-rails-ecsite.onrender.com' }
+  config.active_storage.default_url_options = {
+    host: ENV['RENDER_EXTERNAL_HOSTNAME'] || 'portfolio-next-rails-ecsite.onrender.com'
+  }
 
   # Set default URL options for Rails routes
-  Rails.application.routes.default_url_options = { host: ENV['RENDER_EXTERNAL_HOSTNAME'] || 'portfolio-next-rails-ecsite.onrender.com', protocol: 'https' }
+  Rails.application.routes.default_url_options = {
+    host: ENV['RENDER_EXTERNAL_HOSTNAME'] || 'portfolio-next-rails-ecsite.onrender.com', protocol: 'https'
+  }
 
   # Mount Action Cable outside main process or domain.
   # config.action_cable.mount_path = nil

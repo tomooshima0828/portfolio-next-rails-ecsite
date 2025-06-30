@@ -19,7 +19,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const stockLabel = product.stock >= 10
     ? 'In Stock'
     : product.stock > 0
-      ? `Remaining ${product.stock}`
+      ? `Stock: ${product.stock}`
       : 'Out of Stock'
 
   const stockStyle = product.stock >= 10
