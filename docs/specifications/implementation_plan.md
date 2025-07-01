@@ -93,7 +93,7 @@ MVP(顧客に価値を提供できる最小限のプロダクト)に必須の機
 ## 5. Risks and Issues / リスクと課題
 
 ### 1. **Technical Risks**
-   - Payment system (PayJP) integration may take longer than expected
+   - Payment system (Stripe) integration may take longer than expected
    - Performance optimization for image upload functionality
 
 ### 2. **Schedule Risks**
@@ -105,7 +105,7 @@ MVP(顧客に価値を提供できる最小限のプロダクト)に必須の機
    - Third-party library compatibility issues
 
 ### 1. **技術的リスク**
-   - 決済システム（PayJP）の統合に想定以上の時間がかかる可能性
+   - 決済システム（Stripe）の統合に想定以上の時間がかかる可能性
    - 画像アップロード機能のパフォーマンス最適化
 
 ### 2. **スケジュールリスク**

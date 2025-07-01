@@ -70,23 +70,28 @@ export default function CartSummary({ total, itemsCount, loading = false }: Cart
 
       {/* アクションボタン */}
       <div className="mt-6 space-y-3">
-        <button
-          disabled={itemsCount === 0 || loading}
-          className={`w-full px-6 py-3 rounded-md font-medium text-white transition-colors duration-200 ${
-            itemsCount === 0 || loading
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
-          }`}
-        >
-          {loading ? (
-            <div className="flex items-center justify-center">
-              <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
-              Processing...
-            </div>
-          ) : (
-            'Proceed to Checkout'
-          )}
-        </button>
+        {itemsCount === 0 || loading ? (
+          <button
+            disabled={true}
+            className="w-full px-6 py-3 rounded-md font-medium text-white transition-colors duration-200 bg-gray-400 cursor-not-allowed"
+          >
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></div>
+                Processing...
+              </div>
+            ) : (
+              'Proceed to Checkout'
+            )}
+          </button>
+        ) : (
+          <Link
+            href="/checkout"
+            className="block w-full px-6 py-3 rounded-md font-medium text-white transition-colors duration-200 bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 text-center"
+          >
+            Proceed to Checkout
+          </Link>
+        )}
 
         <Link
           href="/"

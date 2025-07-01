@@ -288,3 +288,65 @@ Standard HTTP status codes will be used. Common codes include:
 ---
 (Further endpoints like Cart, Order, Admin Product Management will be added here)
 (ここにカート、注文、管理者商品管理などのエンドポイントが追加されます)
+
+---
+
+## 4. Cart API / カートAPI
+(To be defined)
+(未定義)
+
+---
+
+## 5. Order API / 注文API
+(To be defined, but the response for an order should include `stripe_payment_intent_id`)
+(未定義、ただし注文のレスポンスには `stripe_payment_intent_id` が含まれるべきです)
+
+---
+
+## 6. Payment API / 決済API
+
+### 6.1. Create Payment Intent
+### 6.1. Payment Intentの作成
+
+- **Endpoint**: `POST /payment_intents`
+- **Description**: Creates a Stripe PaymentIntent to initiate a payment process.
+- **説明**: 支払いプロセスを開始するためにStripeのPaymentIntentを作成します。
+- **Authentication**: Required.
+- **認証**: 必要。
+
+- **Request Body**:
+- **リクエストボディ**:
+  ```json
+  {
+    "cart_items": [
+      { "product_id": 1, "quantity": 2 },
+      { "product_id": 3, "quantity": 1 }
+    ]
+  }
+  ```
+  *(Note: The backend will calculate the final amount based on the cart items to prevent price manipulation on the client-side.)*
+  *(注意: バックエンドはクライアント側での価格操作を防ぐため、カートアイテムに基づいて最終的な金額を計算します。)*
+
+- **Response**:
+- **レスポンス**:
+  - **`200 OK`**:
+    ```json
+    {
+      "clientSecret": "string (the client secret of the PaymentIntent)"
+    }
+    ```
+  - **`400 Bad Request`** (e.g., empty cart):
+  - **`400 Bad Request`** (例: カートが空):
+    ```json
+    {
+      "error": "Cart is empty."
+    }
+    ```
+  - **`404 Not Found`** (e.g., product not found):
+  - **`404 Not Found`** (例: 商品が見つからない):
+    ```json
+    {
+      "error": "Product with id 999 not found."
+    }
+    ```
+

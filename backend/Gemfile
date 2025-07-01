@@ -18,6 +18,9 @@ gem 'puma', '~> 6.4'
 gem 'devise', '~> 4.9'
 gem 'devise-jwt', '~> 0.10.0'
 
+# Payment processing
+gem 'stripe', '~> 12.0'
+
 # API documentation
 gem 'rswag-api'
 gem 'rswag-ui'

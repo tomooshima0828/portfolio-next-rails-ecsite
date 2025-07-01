@@ -41,6 +41,7 @@ erDiagram
         integer total_price
         integer status
         string shipping_address
+        string stripe_payment_intent_id
         datetime created_at
         datetime updated_at
     }

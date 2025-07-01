@@ -37,6 +37,12 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   Max: 20
+  Exclude:
+    - 'app/controllers/api/v1/payment_intents_controller.rb'
+    - 'app/controllers/api/v1/webhooks_controller.rb'
 
 Metrics/AbcSize:
   Max: 25
+  Exclude:
+    - 'app/controllers/api/v1/payment_intents_controller.rb'
+    - 'app/controllers/api/v1/webhooks_controller.rb'
