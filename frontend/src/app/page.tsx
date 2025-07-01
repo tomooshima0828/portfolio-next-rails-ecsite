@@ -21,15 +21,17 @@ export default function Home() {
         <div className="text-center mb-8">
           {isMounted && !isLoading && !isAuthenticated || !user ? (
             <div className="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">
-              <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl sm:tracking-tight lg:text-4xl mb-4">
+              <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl sm:tracking-tight lg:text-3xl mb-4">
                 E-Commerce App
                 <span className="block text-lg text-gray-600 mt-2">Eコマースアプリ</span>
               </h1>
               <div className="mb-4">
                 <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 max-w-md mx-auto">
                   <div className="flex items-center justify-center mb-3">
-                    <PlayIcon className="h-5 w-5 text-gray-700 mr-2" />
-                    <p><strong>Operation Check Steps 動作確認手順:</strong></p>
+                    <div className="text-center">
+                      <p><strong>Operation Check Steps</strong></p>
+                      <p><strong>動作確認手順</strong></p>
+                    </div>
                   </div>
                   <div className="text-left text-sm space-y-1">
                     <p>1. Press &apos;Login&apos; button ログインボタンをクリック</p>
@@ -42,7 +44,6 @@ export default function Home() {
                 </div>
                 <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md max-w-md mx-auto">
                   <div className="flex items-start space-x-2">
-                    <ExclamationTriangleIcon className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="text-sm text-yellow-800">
                         <strong>Notice:</strong> This application is deployed using free tiers of Render, Vercel, and Supabase, so initial loading may be slow.
