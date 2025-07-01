@@ -40,6 +40,27 @@ interface FetchCartResponse {
   items_count: number;
 }
 
+// Define the structure of the add to cart response
+interface AddToCartResponse {
+  total: number;
+  items_count: number;
+  cart_item: CartItem;
+}
+
+// Define the structure of the update cart item response
+interface UpdateCartItemResponse {
+  total: number;
+  items_count: number;
+  cart_item: CartItem;
+}
+
+// Define the structure of the remove from cart response
+interface RemoveFromCartResponse {
+  total: number;
+  items_count: number;
+  cartItemId: number;
+}
+
 // Define the structure of the whole cart state
 // カート全体の状態の形（設計図）で、Reduxで管理
 export interface CartState {
@@ -80,11 +101,11 @@ export const fetchCartItems = createAsyncThunk<FetchCartResponse, void>(
 );
 
 // addToCart 商品をカートに追加する
-export const addToCart = createAsyncThunk(
+export const addToCart = createAsyncThunk<AddToCartResponse, { product_id: number; quantity: number }>(
   'cart/addToCart',
   async (payload: { product_id: number; quantity: number }, { rejectWithValue }) => {
     try {
-      const response = await apiClient('/cart_items', {
+      const response = await apiClient<AddToCartResponse>('/cart_items', {
         method: 'POST',
         body: { cart_item: payload }
       });
@@ -100,11 +121,11 @@ export const addToCart = createAsyncThunk(
 );
 
 // updateCartItem カート内の商品の数量を更新する
-export const updateCartItem = createAsyncThunk(
+export const updateCartItem = createAsyncThunk<UpdateCartItemResponse, { id: number; quantity: number }>(
   'cart/updateCartItem',
   async (payload: { id: number; quantity: number }, { rejectWithValue }) => {
     try {
-      const response = await apiClient(`/cart_items/${payload.id}`, {
+      const response = await apiClient<UpdateCartItemResponse>(`/cart_items/${payload.id}`, {
         method: 'PATCH',
         body: { cart_item: { quantity: payload.quantity } }
       });
@@ -119,14 +140,14 @@ export const updateCartItem = createAsyncThunk(
 );
 
 // removeFromCart カートから商品を削除する
-export const removeFromCart = createAsyncThunk(
+export const removeFromCart = createAsyncThunk<RemoveFromCartResponse, number>(
   'cart/removeFromCart',
   async (cartItemId: number, { rejectWithValue }) => {
     try {
       const response = await apiClient<{total: number; items_count: number}>(`/cart_items/${cartItemId}`, {
         method: 'DELETE'
       });
-      return { cartItemId, ...(response || {}) };
+      return { cartItemId, total: response.total, items_count: response.items_count };
     } catch (error: unknown) {
       const errorMessage = error && typeof error === 'object' && 'response' in error
         ? (error as ErrorResponse).response?.data?.status?.message || 'Failed to remove from cart'
