@@ -87,7 +87,7 @@ export default function CheckoutPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
             <p className="text-gray-600 mb-6">Add some items to your cart before checking out.</p>
             <button
-              onClick={() => router.push('/products')}
+              onClick={() => router.push('/')}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
             >
               Continue Shopping
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
                   <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
                 </div>
                 <p className="font-medium text-gray-900">
-                  ¥{(item.product.price * item.quantity).toLocaleString()}
+                  ¥{Math.floor(item.product.price * item.quantity).toLocaleString()}
                 </p>
               </div>
             ))}
