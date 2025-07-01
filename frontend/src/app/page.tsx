@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import ProductList from '@/components/products/ProductList';
+import { ExclamationTriangleIcon, PlayIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
   const { isAuthenticated, user, isLoading } = useAuth();
@@ -15,17 +16,44 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         {/* ヘッダーセクション */}
         <div className="text-center mb-8">
           {isMounted && !isLoading && !isAuthenticated || !user ? (
-            <div className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
-              <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl mb-4">
+            <div className="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">
+              <h1 className="text-2xl font-extrabold text-gray-900 sm:text-3xl sm:tracking-tight lg:text-4xl mb-4">
                 E-Commerce App
-                <span className="block text-2xl text-gray-600 mt-2">Eコマースアプリ</span>
+                <span className="block text-lg text-gray-600 mt-2">Eコマースアプリ</span>
               </h1>
-              <p>Login to check your order history and purchase products.</p>
-              <p>ログインすると、注文履歴の確認や商品の購入ができます。</p>
+              <div className="mb-4">
+                <div className="bg-gray-100 border border-gray-300 rounded-lg p-4 max-w-md mx-auto">
+                  <div className="flex items-center justify-center mb-3">
+                    <PlayIcon className="h-5 w-5 text-gray-700 mr-2" />
+                    <p><strong>Operation Check Steps 動作確認手順:</strong></p>
+                  </div>
+                  <div className="text-left text-sm space-y-1">
+                    <p>1. Press &apos;Login&apos; button ログインボタンをクリック</p>
+                    <p>2. Select products 商品を選択</p>
+                    <p>3. Add products to cart カートに商品を追加</p>
+                    <p>4. Proceed to checkout 決済画面へ遷移</p>
+                    <p>5. Enter test card info テストカード情報を入力</p>
+                    <p>6. Press &apos;Pay&apos; button 支払いボタンをクリック</p>
+                  </div>
+                </div>
+                <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md max-w-md mx-auto">
+                  <div className="flex items-start space-x-2">
+                    <ExclamationTriangleIcon className="h-4 w-4 text-yellow-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-yellow-800">
+                        <strong>Notice:</strong> This application is deployed using free tiers of Render, Vercel, and Supabase, so initial loading may be slow.
+                      </p>
+                      <p className="text-sm text-yellow-800 mt-1">
+                        <strong>ご注意:</strong> このアプリケーションはRender、Vercel、Supabaseの無料枠を利用してデプロイされているため初動が遅くなる場合があります。
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="mt-4 space-x-4">
                 <Link
                   href="/login"
