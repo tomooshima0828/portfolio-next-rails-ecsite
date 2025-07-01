@@ -33,6 +33,13 @@ export interface CartItem {
   updated_at: string;
 }
 
+// Define the structure of the fetch cart response
+interface FetchCartResponse {
+  cart_items: CartItem[];
+  total: number;
+  items_count: number;
+}
+
 // Define the structure of the whole cart state
 // カート全体の状態の形（設計図）で、Reduxで管理
 export interface CartState {
@@ -57,11 +64,11 @@ const initialState: CartState = {
 // `createAsyncThunk`: 非同期処理の「実行内容そのもの」を記述
 
 // fetchCartItems カートの中身の全部のデータをサーバーから取得する
-export const fetchCartItems = createAsyncThunk(
+export const fetchCartItems = createAsyncThunk<FetchCartResponse, void>(
   'cart/fetchCartItems',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await apiClient('/cart_items');
+      const response = await apiClient<FetchCartResponse>('/cart_items');
       return response;
     } catch (error: unknown) {
       const errorMessage = error && typeof error === 'object' && 'response' in error

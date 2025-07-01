@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/contexts/AuthContext'
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,13 +26,7 @@ export default function CheckoutPage() {
     }
   }, [user, authLoading, router])
 
-  useEffect(() => {
-    if (user && cartItems.length > 0 && totalAmount > 0) {
-      createPaymentIntent()
-    }
-  }, [user, cartItems.length, totalAmount])
-
-  const createPaymentIntent = async () => {
+  const createPaymentIntent = useCallback(async () => {
     setPaymentLoading(true)
     setError(null)
 
@@ -63,7 +57,13 @@ export default function CheckoutPage() {
     } finally {
       setPaymentLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (user && cartItems.length > 0 && totalAmount > 0) {
+      createPaymentIntent()
+    }
+  }, [user, cartItems.length, totalAmount, createPaymentIntent])
 
   const handlePaymentSuccess = () => {
     // Clear cart after successful payment
