@@ -39,7 +39,7 @@ export default function CheckoutPage() {
     try {
       const token = localStorage.getItem('auth_token')
       const response = await axios.post(
-        'http://localhost:3001/api/v1/payment_intents',
+        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/v1/payment_intents`,
         {},
         {
           headers: {
