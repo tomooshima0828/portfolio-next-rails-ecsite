@@ -17,7 +17,6 @@ const MyPage = () => {
     const token = localStorage.getItem('auth_token');
     
     if (!token) {
-      console.log('No token found in localStorage, redirecting to home');
       router.push('/');
       return;
     }
@@ -32,14 +31,11 @@ const MyPage = () => {
     // ユーザーが設定されていない場合、認証状態を確認
     const verifyAuth = async () => {
       try {
-        console.log('Checking authentication status...');
         const isAuth = await checkAuth();
         
         if (isAuth) {
-          console.log('Authentication successful');
           setPageLoading(false);
         } else {
-          console.log('Authentication failed, redirecting to home');
           router.push('/');
         }
       } catch (error) {

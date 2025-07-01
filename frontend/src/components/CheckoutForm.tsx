@@ -28,7 +28,6 @@ export default function CheckoutForm({ totalAmount, onSuccess, onError }: Checko
     setMessage(null)
 
     try {
-      console.log('Stripe confirmPayment starting...')
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
@@ -36,8 +35,6 @@ export default function CheckoutForm({ totalAmount, onSuccess, onError }: Checko
         },
         redirect: 'if_required',
       })
-
-      console.log('Stripe confirmPayment result:', { error, paymentIntent })
 
       if (error) {
         console.error('Stripe payment error:', error)
@@ -49,17 +46,14 @@ export default function CheckoutForm({ totalAmount, onSuccess, onError }: Checko
           onError?.('An unexpected error occurred')
         }
       } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-        console.log('Payment succeeded:', paymentIntent)
         // Payment succeeded
         setMessage('Payment successful! Redirecting...')
         onSuccess?.()
         
         // Add payment intent ID to the success URL
         const successUrl = `/checkout/success?payment_intent=${paymentIntent.id}&redirect_status=succeeded`
-        console.log('Redirecting to:', successUrl)
         router.push(successUrl)
       } else {
-        console.log('Payment status:', paymentIntent?.status)
         setMessage('Payment is being processed...')
       }
     } catch {

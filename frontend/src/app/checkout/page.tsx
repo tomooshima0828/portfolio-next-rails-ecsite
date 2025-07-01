@@ -32,15 +32,13 @@ export default function CheckoutPage() {
 
     try {
       const token = localStorage.getItem('auth_token')
-      console.log('Token from localStorage:', token ? 'Token exists' : 'No token found')
-      console.log('Current user:', user)
       
       if (!token) {
         throw new Error('Authentication token not found. Please log in again.')
       }
       
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/v1/payment_intents`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL || (process.env.NEXT_PUBLIC_API_URL ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1` : 'http://localhost:3001/api/v1')}/payment_intents`,
         {},
         {
           headers: {

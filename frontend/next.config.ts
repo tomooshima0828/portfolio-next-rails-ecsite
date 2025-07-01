@@ -25,15 +25,15 @@ const nextConfig: NextConfig = {
     ],
   },
   // Next.js 15.3.3ではswcMinifyオプションは不要
-  // 開発環境でのAPIプロキシ設定
-  async rewrites() {
-    return [
-      {
-        source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://backend:3000'}/api/:path*`,
-      },
-    ];
-  },
+  // 開発環境でのAPIプロキシ設定（無効化）
+  // async rewrites() {
+  //   return [
+  //     {
+  //       source: "/api/:path*",
+  //       destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://backend:3000'}/api/:path*`,
+  //     },
+  //   ];
+  // },
   // リダイレクト設定
   async redirects() {
     return [

@@ -1,6 +1,8 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL 
-  ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
-  : 'http://localhost:3001/api/v1';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 
+  (process.env.NEXT_PUBLIC_API_URL 
+    ? `${process.env.NEXT_PUBLIC_API_URL}/api/v1`
+    : 'http://localhost:3001/api/v1');
+
 
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -57,7 +59,8 @@ export const apiClient = async <T>(
   }
 
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+    const fullUrl = `${API_BASE_URL}${endpoint}`;
+    const response = await fetch(fullUrl, config);
 
     if (!response.ok) {
       let errorMessage = `HTTP error! status: ${response.status}`;
