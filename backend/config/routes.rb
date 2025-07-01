@@ -25,7 +25,7 @@ Rails.application.routes.draw do
 
       # 決済関連のAPIエンドポイント
       resources :payment_intents, only: [:create]
-      
+
       # Webhook関連のAPIエンドポイント
       post 'webhooks/stripe', to: 'webhooks#stripe'
     end

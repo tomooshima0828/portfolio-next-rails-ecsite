@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Order < ApplicationRecord
   # アソシエーション
   belongs_to :user
