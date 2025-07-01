@@ -14,6 +14,7 @@ interface StripeProviderProps {
 export default function StripeProvider({ children, clientSecret }: StripeProviderProps) {
   const options = {
     clientSecret,
+    locale: 'en' as const, // 英語に設定
     appearance: {
       theme: 'stripe' as const,
       variables: {

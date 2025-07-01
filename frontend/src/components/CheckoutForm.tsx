@@ -76,6 +76,23 @@ export default function CheckoutForm({ totalAmount, onSuccess, onError }: Checko
 
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-gray-900">Payment Information</h3>
+        
+        {/* Test Card Information for Demo */}
+        <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-4">
+          <p className="text-sm text-blue-900 mb-2">To perform an operation check, please enter the test card information for items #1 to #3 below. The other fields are optional.</p>
+          <p className="text-sm text-blue-900 mb-2">動作確認のため、以下のテストカードの情報の#1から#3までを入力してください。その他の項目は必須ではありません。</p>
+          <hr className="border-blue-300 my-3" />
+          <div className="text-sm text-blue-800 space-y-1">
+            <p><strong>#1. Card Number カード番号:</strong> <span className="text-red-600 font-mono">4242 4242 4242 4242</span></p>
+            <p><strong>#2. Expiration Date 有効期限:</strong> Any future date 未来の日付 (e.g., <span className="text-red-600 font-mono">12/34</span>)</p>
+            <p><strong>#3. Security code セキュリティコード:</strong> Any 3 digits 3桁の数字 (e.g., <span className="text-red-600 font-mono">123</span>)</p>
+          </div>
+          <hr className="border-blue-300 my-3" />
+          <p className="text-xs text-blue-600 mt-2">
+            This is a Stripe test environment. No real payments will be processed.
+          </p>
+        </div>
+        
         <PaymentElement />
       </div>
 
