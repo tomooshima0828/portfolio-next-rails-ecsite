@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
 import ProductList from '@/components/products/ProductList';
-import { ExclamationTriangleIcon, PlayIcon } from '@heroicons/react/24/outline';
 
 export default function Home() {
   const { isAuthenticated, user, isLoading } = useAuth();
