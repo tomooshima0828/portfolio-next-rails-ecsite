@@ -2,7 +2,7 @@
 
 Please visit the live app site on Vercel below.<br>
 本アプリを以下のVercelで公開しておりますので是非ご覧ください。<br>
-<a href="https://portfolio-next-rails-ecsite.vercel.app" target="_blank">https://portfolio-next-rails-ecsite.vercel.app</a>
+https://portfolio-next-rails-ecsite.vercel.app
 
 ## 1. Overview / 概要
 
@@ -12,26 +12,26 @@ This is a full-stack e-commerce application built with Next.js (frontend) and Ru
 
 ### Screenshots / スクリーンショット
 
-Product list page with categories / カテゴリー別商品一覧ページ
+Product list page with categories / カテゴリー別の商品一覧
 ![Product List](docs/images/product-list.png)
 
-Product detail page / 商品詳細ページ
+Product detail page / 商品詳細
 ![Product Detail](docs/images/product-detail.png)
 
-Shopping cart with items / 商品が入ったショッピングカート
+Shopping cart with items / 商品選択時のショッピングカート
 ![Shopping Cart](docs/images/shopping-cart.png)
 
-Stripe checkout integration / Stripe決済画面統合
+Stripe checkout integration / Stripeを使用した決済
 ![Checkout](docs/images/checkout.png)
 
 ### Key Features / 主な機能
 
 - 🛍️ Product catalog with categories / カテゴリー別商品カタログ
 - 🛒 Shopping cart functionality / ショッピングカート機能
-- 💳 Stripe payment integration / Stripe決済統合
+- 💳 Stripe payment integration / Stripeによる決済機能
 - 👤 User authentication (login/signup) / ユーザー認証（ログイン/新規登録）
 - 📱 Responsive design / レスポンシブデザイン
-- 🔒 JWT-based API authentication / JWT ベースのAPI認証
+- 🔒 JWT-based API authentication / JWTによるAPI認証
 
 ### Tech Stack / 技術スタック
 
@@ -123,7 +123,7 @@ docker compose run --rm frontend npm run lint
 詳細な要件仕様については以下のドキュメントを参照してください：
 For detailed requirements specification, please refer to the following document:
 
-📋 **<a href="docs/specifications/requirements_specification.md" target="_blank">Requirements Specification 要件定義書</a>**
+📋 **[Requirements Specification 要件定義書](docs/specifications/requirements_specification.md)**
 
 ## 4. Technology Selection / 技術選定
 
@@ -163,13 +163,13 @@ This project adopts a modern **decoupled architecture** with carefully selected 
 Please see the database schema below.
 詳細なデータベーススキーマ定義については、こちらをご確認ください：
 
-📋**<a href="docs/specifications/database_schema.md" target="_blank">Database Schema Documentation データベーススキーマ テーブル定義書</a>**
+📋**[Database Schema Documentation データベーススキーマ テーブル定義書](docs/specifications/database_schema.md)**
 
 ## 6. ER Diagram / ER図
 Please see the ER diagram below.
 詳細なER図については、こちらをご確認ください：
 
-📋**<a href="docs/specifications/er_diagram.md" target="_blank">ER Diagram Documentation ER図</a>**
+📋**[ER Diagram Documentation ER図](docs/specifications/er_diagram.md)**
 
 ## 7. Development Workflow / 開発ワークフロー
 
