@@ -1,8 +1,8 @@
-# portfolio-next-rails-ecsite
-## ポートフォリオ Next.js + Rails ECサイト
+# Portfolio Next.js + Rails E-Commerce Site<br>ポートフォリオ Next.js + Rails ECサイト
 
-## Live Site on Vercel
-https://portfolio-next-rails-ecsite.vercel.app
+Please visit the live app site on Vercel below.<br>
+本アプリを以下のVercelで公開しておりますので是非ご覧ください。<br>
+<a href="https://portfolio-next-rails-ecsite.vercel.app" target="_blank">https://portfolio-next-rails-ecsite.vercel.app</a>
 
 ## 1. Overview / 概要
 
@@ -12,16 +12,16 @@ This is a full-stack e-commerce application built with Next.js (frontend) and Ru
 
 ### Screenshots / スクリーンショット
 
-*Product list page with categories / カテゴリー別商品一覧ページ*
+Product list page with categories / カテゴリー別商品一覧ページ
 ![Product List](docs/images/product-list.png)
 
-*Product detail page / 商品詳細ページ*
+Product detail page / 商品詳細ページ
 ![Product Detail](docs/images/product-detail.png)
 
-*Shopping cart with items / 商品が入ったショッピングカート*
+Shopping cart with items / 商品が入ったショッピングカート
 ![Shopping Cart](docs/images/shopping-cart.png)
 
-*Stripe checkout integration / Stripe決済画面統合*
+Stripe checkout integration / Stripe決済画面統合
 ![Checkout](docs/images/checkout.png)
 
 ### Key Features / 主な機能
@@ -89,8 +89,8 @@ This is a full-stack e-commerce application built with Next.js (frontend) and Ru
     ```
 
 5.  **Access the application / アプリケーションにアクセス**
-    *   Frontend / フロントエンド: [http://localhost:3000](http://localhost:3000)
-    *   Backend API (for reference) / バックエンド API (参考): [http://localhost:3001](http://localhost:3001)
+    *   Frontend / フロントエンド: <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>
+    *   Backend API (for reference) / バックエンド API (参考): <a href="http://localhost:3001" target="_blank">http://localhost:3001</a>
 
 ### Database Connection / データベース接続
 
@@ -123,7 +123,7 @@ docker compose run --rm frontend npm run lint
 詳細な要件仕様については以下のドキュメントを参照してください：
 For detailed requirements specification, please refer to the following document:
 
-📋 **[Requirements Specification 要件定義書](docs/specifications/requirements_specification.md)**
+📋 **<a href="docs/specifications/requirements_specification.md" target="_blank">Requirements Specification 要件定義書</a>**
 
 ## 4. Technology Selection / 技術選定
 
@@ -163,20 +163,20 @@ This project adopts a modern **decoupled architecture** with carefully selected 
 Please see the database schema below.
 詳細なデータベーススキーマ定義については、こちらをご確認ください：
 
-📋**[Database Schema Documentation データベーススキーマ テーブル定義書](docs/specifications/database_schema.md)**
+📋**<a href="docs/specifications/database_schema.md" target="_blank">Database Schema Documentation データベーススキーマ テーブル定義書</a>**
 
 ## 6. ER Diagram / ER図
 Please see the ER diagram below.
 詳細なER図については、こちらをご確認ください：
 
-📋**[ER Diagram Documentation ER図](docs/specifications/er_diagram.md)**
+📋**<a href="docs/specifications/er_diagram.md" target="_blank">ER Diagram Documentation ER図</a>**
 
 ## 7. Development Workflow / 開発ワークフロー
 
 ### Branch Naming Convention / ブランチ命名規則
 
 ```
-{type}/{issue-number}-{slug-form-title}
+{type}/{issue-number}-{slug-form-issue-title}
 ```
 
 #### Branch Types / ブランチの種類
@@ -190,55 +190,7 @@ Please see the ER diagram below.
 | `docs/`    | Documentation updates / ドキュメント更新 | `docs/025-update-readme` |
 | `chore/`   | Maintenance tasks / その他のメンテナンス | `chore/030-update-dependencies` |
 
-#### Naming Rules / 命名規則
-
-1. **Use slashes (/) to separate branch types**  
-   **スラッシュ(/)でブランチタイプを区切る**  
-   - 例: `feature/001-user-authentication`
-
-2. **Prefix with issue number**  
-   **Issue番号を先頭に付与**  
-   - 例: `001-` (3桁のゼロパディング)
-   - Issue番号がない場合は `000-` から開始
-
-3. **Slug-form title**  
-   **スラッグ形式のタイトル**  
-   - 小文字の英数字とハイフンのみ使用
-   - 単語はハイフンで区切る
-   - 例: `setup-docker-environment`
-
-### Basic Workflow / 基本的なワークフロー
-
-1. **Start a new feature** / **新機能の作業を開始**:
-   ```bash
-   git checkout main
-   git pull origin main
-   git checkout -b feature/001-user-authentication
-   ```
-
-2. **Commit changes** / **変更をコミット**:
-   ```bash
-   git add .
-   git commit -m "feat: Implement input fields for user authentication"
-   ```
-
-3. **Push to remote** / **リモートにプッシュ**:
-   ```bash
-   git push -u origin feature/001-user-authentication
-   ```
-
-4. **Create a pull request** / **プルリクエストを作成**:
-   - Create a pull request on GitHub/GitLab
-   - Reference related issue (e.g., `#1`)
-   - Get code review and merge
-
-## 8. Issue Management / Issue管理方針
-
-### Naming Convention / 命名規則
-- File Name: `{issue-number}-{slug-form-title}.md`
-  - Example: `001-setup-development-environment.md`
-
-## 9. Project Structure / プロジェクト構造
+## 8. Project Structure / プロジェクト構造
 
 ```
 portfolio-next-rails-ecsite/
