@@ -3,7 +3,6 @@
 module Api
   module V1
     class PaymentIntentsController < BaseController
-
       def create
         Rails.logger.info "PaymentIntent create - User: #{current_user&.id}"
 

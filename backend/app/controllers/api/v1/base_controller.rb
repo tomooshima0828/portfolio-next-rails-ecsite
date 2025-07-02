@@ -33,14 +33,14 @@ module Api
 
       # 認証メソッド（実際のJWT認証はDevise JWTで実装）
       def authenticate_user!
-        Rails.logger.info "Base Controller - Authentication attempt"
+        Rails.logger.info 'Base Controller - Authentication attempt'
         Rails.logger.info "Base Controller - Authorization header: #{request.headers['Authorization']}"
         Rails.logger.info "Base Controller - Current user: #{current_user&.id}"
-        
+
         # 認証トークンがない場合は401エラー
         return if current_user
 
-        Rails.logger.warn "Base Controller - Authentication failed"
+        Rails.logger.warn 'Base Controller - Authentication failed'
         render json: {
           status: { code: 401, message: '認証が必要です' }
         }, status: :unauthorized
