@@ -70,7 +70,7 @@ export default function CheckoutForm({ totalAmount, onSuccess, onError }: Checko
         <h3 className="text-lg font-semibold text-gray-900 mb-2">Order Summary</h3>
         <div className="flex justify-between">
           <span className="text-gray-600">Total:</span>
-          <span className="font-bold text-lg">¥{Math.floor(totalAmount).toLocaleString()}</span>
+          <span className="font-bold text-lg text-gray-900">¥{Math.floor(totalAmount).toLocaleString()}</span>
         </div>
       </div>
 
