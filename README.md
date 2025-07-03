@@ -56,6 +56,49 @@ Stripe checkout integration / Stripeを使用した決済
 - Backend: Render (Rails)
 - Database: Supabase (PostgreSQL)
 
+### Production Architecture / 本番環境アーキテクチャ
+
+```mermaid
+graph TB
+    subgraph "User Access / ユーザーアクセス"
+        U[Users / ユーザー]
+    end
+    
+    subgraph "Frontend / フロントエンド"
+        V[Vercel<br/>Next.js App]
+    end
+    
+    subgraph "Backend / バックエンド"
+        R[Render<br/>Rails API]
+    end
+    
+    subgraph "Database / データベース"
+        S[Supabase<br/>PostgreSQL]
+    end
+    
+    subgraph "File Storage / ファイルストレージ"
+        C[Cloudinary<br/>Image Upload]
+    end
+    
+    subgraph "Payment / 決済"
+        ST[Stripe<br/>Payment Processing]
+    end
+    
+    U --> V
+    V --> R
+    R --> S
+    R --> C
+    V --> ST
+    
+    style V fill:#0070f3,color:#fff
+    style R fill:#7c3aed,color:#fff
+    style S fill:#3ecf8e,color:#fff
+    style C fill:#3448c5,color:#fff
+    style ST fill:#635bff,color:#fff
+```
+
+### 
+
 ## 3. Local Development Setup / ローカル開発環境設定
 
 ### Setup Steps / セットアップ手順
