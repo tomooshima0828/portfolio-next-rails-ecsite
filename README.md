@@ -1,4 +1,4 @@
-# Portfolio Next.js + Rails E-Commerce Site<br>ポートフォリオ Next.js + Rails ECサイト
+# Portfolio Next.js + Rails + Stripe E-Commerce Site<br>ポートフォリオ Next.js + Rails + Stripe ECサイト
 
 ## 1. Production (live app site) / 本番環境(公開サイト)
 
