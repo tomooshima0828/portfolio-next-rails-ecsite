@@ -127,10 +127,6 @@ For detailed requirements specification, please refer to the following document:
 
 ## 4. Technology Selection / 技術選定
 
-This project adopts a modern **decoupled architecture** with carefully selected technologies for scalability, maintainability, and developer experience.
-
-このプロジェクトでは、スケーラビリティ、保守性、開発者体験を重視して慎重に選定された技術により、モダンな**疎結合アーキテクチャ**を採用しています。
-
 ### Frontend Technology Choices
 
 | Technology | Version | Purpose | Reason for Selection |
@@ -159,19 +155,22 @@ This project adopts a modern **decoupled architecture** with carefully selected 
 - **Infrastructure**: Multi-service architecture (Vercel + Render + Supabase)
 - **File Storage**: Cloudinary for optimized image handling
 
-## 5. Database Schema / データベーススキーマ
-Please see the database schema below.
-詳細なデータベーススキーマ定義については、こちらをご確認ください：
+## 5. Database Design / データベース設計
 
-📋**[Database Schema Documentation データベーススキーマ テーブル定義書](docs/specifications/database_schema.md)**
+📋 **[Database Schema Documentation データベーススキーマ テーブル定義書](docs/specifications/database_schema.md)**
 
-## 6. ER Diagram / ER図
-Please see the ER diagram below.
-詳細なER図については、こちらをご確認ください：
+📋 **[ER Diagram Documentation ER図](docs/specifications/er_diagram.md)**
 
-📋**[ER Diagram Documentation ER図](docs/specifications/er_diagram.md)**
+## 6. Project Management / プロジェクト管理
 
-## 7. Development Workflow / 開発ワークフロー
+### GitHub project with issues
+Phase 1: Core Features / コア機能 (MVP)<br>
+https://github.com/users/tomooshima0828/projects/1
+
+### Documentation for specifications, design, development details<br>文書(仕様、設計、実装内容詳細)
+
+📋 **[Documents in this project directory 各文書はこちらをご覧ください](docs)**
+
 
 ### Branch Naming Convention / ブランチ命名規則
 
@@ -190,7 +189,7 @@ Please see the ER diagram below.
 | `docs/`    | Documentation updates / ドキュメント更新 | `docs/025-update-readme` |
 | `chore/`   | Maintenance tasks / その他のメンテナンス | `chore/030-update-dependencies` |
 
-## 8. Project Structure / プロジェクト構造
+## 7. Project Structure / プロジェクト構造
 
 ```
 portfolio-next-rails-ecsite/
