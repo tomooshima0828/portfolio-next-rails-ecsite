@@ -1,10 +1,12 @@
 # Portfolio Next.js + Rails E-Commerce Site<br>ポートフォリオ Next.js + Rails ECサイト
 
+## 1. Production (live app site) / 本番環境(公開サイト)
+
 Please visit the live app site on Vercel below.<br>
 本アプリを以下のVercelで公開しておりますので是非ご覧ください。<br>
-https://portfolio-next-rails-ecsite.vercel.app
+### https://portfolio-next-rails-ecsite.vercel.app
 
-## 1. Overview / 概要
+## 2. Overview / 概要
 
 This is a full-stack e-commerce application built with Next.js (frontend) and Ruby on Rails (backend), featuring Stripe payment integration.
 
@@ -54,7 +56,7 @@ Stripe checkout integration / Stripeを使用した決済
 - Backend: Render (Rails)
 - Database: Supabase (PostgreSQL)
 
-## 2. Local Development Setup / ローカル開発環境設定
+## 3. Local Development Setup / ローカル開発環境設定
 
 ### Setup Steps / セットアップ手順
 
@@ -118,14 +120,14 @@ docker compose run --rm backend bundle exec rubocop -A
 docker compose run --rm frontend npm run lint
 ```
 
-## 3. Requirements Specification / 要件仕様
+## 4. Requirements Specification / 要件仕様
 
 詳細な要件仕様については以下のドキュメントを参照してください：
 For detailed requirements specification, please refer to the following document:
 
 📋 **[Requirements Specification 要件定義書](docs/specifications/requirements_specification.md)**
 
-## 4. Technology Selection / 技術選定
+## 5. Technology Selection / 技術選定
 
 ### Frontend Technology Choices
 
@@ -155,13 +157,13 @@ For detailed requirements specification, please refer to the following document:
 - **Infrastructure**: Multi-service architecture (Vercel + Render + Supabase)
 - **File Storage**: Cloudinary for optimized image handling
 
-## 5. Database Design / データベース設計
+## 6. Database Design / データベース設計
 
 📋 **[Database Schema Documentation データベーススキーマ テーブル定義書](docs/specifications/database_schema.md)**
 
 📋 **[ER Diagram Documentation ER図](docs/specifications/er_diagram.md)**
 
-## 6. Project Management / プロジェクト管理
+## 7. Project Management / プロジェクト管理
 
 ### GitHub project with issues
 Phase 1: Core Features / コア機能 (MVP)<br>
@@ -189,7 +191,7 @@ https://github.com/users/tomooshima0828/projects/1
 | `docs/`    | Documentation updates / ドキュメント更新 | `docs/025-update-readme` |
 | `chore/`   | Maintenance tasks / その他のメンテナンス | `chore/030-update-dependencies` |
 
-## 7. Project Structure / プロジェクト構造
+## 8. Project Structure / プロジェクト構造
 
 ```
 portfolio-next-rails-ecsite/
